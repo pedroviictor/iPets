@@ -1,0 +1,192 @@
+/* Estilos - Pedidos */
+
+main{
+    padding-left: 70px;
+    padding-right: 70px;
+}
+
+main h2{
+    color: #00154B;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.emAnd-prod-group{
+    display: flex;
+}
+
+.emAnd-prod-group .emAnd-prod{
+    background-color: #fbfbfb;
+    box-shadow: 0 4px 3px rgba(0, 0, 0, 0.25);
+    width: 30%;
+    height: 100%;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.prod-stts-simple{
+    line-height: 15px;
+}
+
+.prod-stts-simple ul{
+    list-style: none;
+}
+
+.prod-stts-simple li{
+    display: flex;
+}
+
+.prod-stts-simple .items-number{
+    background-color: #e4e4e4;
+    margin-right: 5px;
+    color: #000;
+    width: 16px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.prod-stts-simple h5{
+    font-weight: normal;
+    color: #7E7E7E;
+}
+
+.status{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.status::before{
+    content: '';
+    width: 15px;
+    height: 15px;
+    background-color: #D86000;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px; 
+}
+
+.emAnd-prod-stts-container{
+    text-align: center; 
+    line-height: 45px;
+}
+
+.emAnd-prod-stts{
+    color: #d86000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.prod-loja{
+    padding-right: 20px;
+}
+
+.prod-loja ul{
+    display: inline-flex; 
+    width: 100%;
+    line-height: 30px;
+}
+
+.prod-loja li{
+    list-style: none;
+    margin-right: 30px;
+}
+
+
+.prod-loja img{
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+}
+
+.store-link{
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    margin-right: 200px;
+}
+
+.store-link a{
+    font-size: 24px;
+    text-decoration: none;
+    display: inline-block;
+    transform: scale(1, 1.5); 
+    color: #000;
+}
+
+.hist-prod-group{
+    display: flex;
+}
+
+.hist-prod-group .hist-prod{
+    background-color: #fbfbfb;
+    box-shadow: 0 4px 3px rgba(0, 0, 0, 0.25);
+    width: 30%;
+    margin-left: 10px;
+    margin-right: 10px;
+    padding: 10px;
+    border-radius: 20px;
+}
+
+.aval-container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+.aval-label {
+    font-size: 15px;
+    color: #7E7E7E;
+    margin: 0;
+    font-weight: 500;
+}
+
+.estr-container{
+    display: flex;
+    padding-right: 20px;
+}
+
+.estr{
+    font-size: 23px;
+    color: #000;
+    cursor: pointer;
+    margin-left: 5px; 
+    margin: 0;
+}
+
+.hist-prod-stts-container{
+    display: table;
+    text-align: center; 
+    line-height: 45px;
+    width: 100%;
+}
+
+.hist-prod-stts{
+    display: table-cell;
+    color: #d86000;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.hist-prod .status{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.hist-prod .status::before{
+    content: '';
+    width: 15px;
+    height: 15px;
+    background-color: #32BA7C;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px; 
+}

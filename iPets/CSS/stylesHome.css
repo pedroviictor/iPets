@@ -1,0 +1,233 @@
+/* Estilos - Home */
+
+.nav{
+    width: 100%;
+    height: 615px;
+    background-repeat: no-repeat;
+    background-size: 100%;
+    background-position: 0;
+}
+
+.nav .nav-content{
+    position: absolute;
+    left: 100px;
+    top: 180px;
+    line-height: 25px;
+}
+
+.nav-content h2{
+    font-size: 35px;
+    color: #ffffff;
+    font-weight: 600;
+}
+
+.nav-content p{
+    color: #ffffff;
+    font-weight: 300;
+    width: 500px;
+    font-size: 18px;
+}
+
+main{
+    padding-left: 50px;
+    padding-right: 50px;
+}
+
+h1{
+    margin-left: 30px;
+    margin-top: -30px;
+}
+
+.categoria-buttons{
+    display: flex;
+    justify-content: center;
+    padding: 10px;
+    padding-left: 20px;
+    padding-right: 20px;
+    gap: 9%;
+}
+
+.categoria-buttons .categoria-button{
+    cursor: pointer;
+    text-align: center;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.categoria-button a{
+    text-decoration: none;
+    color: #000;
+}
+
+.categoria-button img{
+    height: auto;
+    width: 150px;
+    transition: transform 0.3s ease;
+    z-index: 2;
+    filter: drop-shadow(5px 5px rgba(0, 0, 0, 0.25));
+}
+
+.categoria-button .categoria-button-img-back{
+    margin-bottom: -160px;
+    background-color: #00154B;
+    height: 90px;
+    border-radius: 15px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    z-index: 0;
+}
+
+.categoria-button h3{
+    font-weight: 400;
+}
+
+.categoria-button:hover .categoria-button-img-back{
+    background-color: #d86000;
+    transform: scale(1.05);
+    z-index: 0;
+}
+
+.categoria-button:hover img{
+    transform: scale(1.05);
+}
+
+.cards-home{
+    display: flex;
+    justify-content: center;
+    gap: 250px;
+}
+
+.cards-home .card-home{
+    cursor: pointer;
+}
+
+.cards-home .card-home img{
+    border-radius: 30px;   
+    width: 500px;
+    height: auto;
+    transition: transform 0.3s ease;
+}
+
+.cards-home .card-home img:hover{
+    transform: scale(1.05);
+}
+
+.lojas-home-container{
+    width: 100%;
+    margin-top: 40px;
+}
+
+.lojas-home-container a{
+    text-decoration: none;
+    color: #D86000;
+    font-size: 18px;
+}
+
+.lojas-home-container h1{
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.lojas-home-tit{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.lojas-container{
+    display: flex;
+    flex-wrap: wrap; 
+    gap: 70px;
+    justify-content: center;
+    align-items: center;
+}
+
+.lojas{
+    flex: 1 1 25%; 
+    box-sizing: border-box;
+    align-items: center;
+}
+
+.lojas a{
+    font-size: normal;
+    color: #000;
+}
+
+.lojas-info-total{
+    display: flex;
+    margin-top: 10px;
+}
+
+.lojas img{
+    border: 1px solid #000;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    margin-right: 10px;
+}
+
+.lojas-info{
+    line-height: 2px;
+}
+
+.lojas-info p{
+    color: #404040;
+    font-size: 18px;
+}
+
+.lojas-info p:last-child{
+    line-height: 18px;
+}
+
+.lojas-info h4{
+    font-size: 23px;
+}
+
+.carrossel{
+    margin-top: 80px;
+}
+
+.carrossel .carrossel-elementos-container{
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.carrossel-elemento, .on{
+    transition: transform 0.3s ease;
+    filter: blur(1px);
+}
+
+.carrossel-elementos-container img{
+    width: 435px;
+    height: auto;
+    border-radius: 3px;
+}
+ 
+.on{
+    transform: scale(1.05);
+    filter: none;
+    z-index: 11;
+}
+
+.carrossel button{
+    z-index: 12;
+    background-color: rgba(0,21,75, 0.75);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+#prox{
+    position: relative;
+    bottom: 155px;
+    left: 1281px;
+}
+
+#ante{
+    position: relative;
+    top: 145px;
+    right: 20px;
+}

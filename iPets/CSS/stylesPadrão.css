@@ -1,0 +1,135 @@
+/* Formatação padrão de todas as páginas */
+
+body{
+    font-family: "Kanit", sans-serif;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #FBFBFB;
+}
+
+
+main{
+    padding: 30px;
+}
+
+img{
+    color: white;
+}
+
+.navbar{
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    gap: 5%;
+    color: #ffff;
+    background-color: #00154B;
+}
+
+.navbar img{
+    width: 30px;
+    height: auto;
+    cursor: pointer;
+}
+
+.navbar .navbar-logo{
+    height: auto;
+    width: 120px;
+}
+
+.navbar .navbar-pesq{
+    border: 2px solid #d86000;
+    vertical-align: center;
+    height: 40px;
+    width: 525px;
+    border-radius: 25px;
+}
+
+.navbar-pesq .navbar-pesq-input{
+    width: 485px;
+    height: 40px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: #ffff;
+    font-family: "Kanit", sans-serif;
+    font-size: 16px;
+    padding-left: 5px;
+}
+
+.navbar-pesq-input::placeholder{
+    color: #C1C5D0;
+    font-family: "Kanit", sans-serif;
+}
+
+.navbar-pesq img{
+    margin-bottom: -4px;
+    height: auto;
+    width: 20px;
+    margin-right: 5px;
+}
+
+.navbar .navbar-perfil{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    line-height: 2px;
+    cursor: pointer;
+}
+
+.navbar .navbar-localiza img{
+    width: auto;
+    height: 30px;
+}
+
+.navbar .navbar-carrinho{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    line-height: 2px;
+    cursor: pointer;
+}
+
+.navbar a{
+    text-decoration: none;
+    color: #F1F1F1;
+}
+
+.footer{
+    background-color: #00154B;
+    display: flex;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 10px;
+    gap: 70px;
+    margin-top: 30px;
+}
+
+.footer img{
+    width: 30px;
+    height: auto;
+    margin-right: 5px;
+    color: #F1F1F1;
+}
+
+.footer .footer-element{
+    line-height: 20px;
+}
+
+.footer-element h5{
+    color: #F1F1F1;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.footer-element p{
+   color: #CDD0D8;
+   font-size: 18px;
+   font-weight: 350;
+}
+
+.footer-element-contatos{
+    display: flex;
+    align-items: center;
+}

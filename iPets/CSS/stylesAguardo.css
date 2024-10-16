@@ -1,0 +1,95 @@
+/* Estilos - Aguardo */
+
+.confirma-display{
+    text-align: center;
+}
+
+.confirma-display p{
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.confirma-display img{
+    width: 500px;
+    height: auto;
+}
+
+.pedido-info{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.status-pedido{
+    display: inline-block;
+    position: relative;
+}
+
+.status-lista{
+    list-style: none;
+    font-size: 17px;
+    position: relative;
+}
+
+.status-lista li{
+    margin: 10px; 
+}
+
+.status-pedido img{
+    width: 30px;
+    height: auto;
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 10px;
+}
+
+.status-completo{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.status-completo::before{
+    content: '';
+    width: 15px;
+    height: 15px;
+    background-color: #D86000;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px; 
+}
+
+.status{
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.status::before{
+    content: '';
+    width: 15px;
+    height: 15px;
+    background-color: #D9D9D9;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 5px; 
+}
+
+.button{
+    display: flex;
+    position: absolute;
+    text-align: center;
+    left: 33rem;
+}
+
+.next-button{
+    font-family: "Kanit", sans-serif;
+    padding: 10px 20px;
+    width: 300px;
+    background-color: #D86000;
+    color: #f0f0f0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    text-decoration: none;
+}

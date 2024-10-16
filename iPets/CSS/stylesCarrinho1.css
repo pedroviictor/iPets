@@ -1,0 +1,191 @@
+/* Estilos - Carrinho 1 */
+
+main{
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+main h3{
+    font-weight: 600;
+}
+
+.car-loja{
+    display: flex;
+    line-height: 38px;
+    font-size: 20px;
+}
+
+.car-loja img{
+    border-radius: 50%;
+    width: 75px;
+    height: 75px;
+    margin-right: 10px;
+}
+
+.prods-compra .prod{
+    display: flex;
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
+}
+
+.prod img{
+    width: 100px;
+    height: 100px;
+    background-color: #F1F1F1;
+    border-radius: 20px;
+}
+
+.prods-compra .a-container{
+    text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.prods-compra a{
+    text-decoration: none;
+    color: #D86000;
+}
+
+.prod-info{
+    font-weight: 400;
+    margin-left: 10px;
+}
+
+.prod-quant{
+    display: flex;
+    background-color: #EEEEEE;
+    border-radius: 10px;
+    align-items: center;
+    justify-content: space-around;
+    margin-left: auto;
+    margin-right: 20px;
+    width: 100px;
+    height: 50px;
+}
+
+.prod-quant h5{
+    color: #D86000;
+    cursor: pointer;
+    font-size: 25px;
+}
+
+.prod-quant p{
+    font-size: 20px;
+}
+
+.prods-compra-adic{
+    display: flex;
+}
+
+.prod-adic{
+    margin-left: 10px;
+    margin-right: 10px;
+    line-height: 5px;
+}
+
+.prod-adic img{
+    width: 160px;
+    height: 160px;
+    background-color: #F1F1F1;
+    border-radius: 20px;
+}
+
+.prod-adic button{
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    background-color: #00154B;
+    color: #D86000;
+    font-size: 35px;
+    border: none;
+    margin-left: -40px;
+    cursor: pointer;
+}
+
+.val{
+    display: flex;
+    width: 90%;
+    justify-content: space-between;
+    background-color: #FBFBFB;
+    padding: 20px;
+    line-height: 5px;
+    box-shadow: 0 4px 3px rgba(0, 0, 0, 0.25);
+    text-align: center;
+    height: 40%;
+    margin: 0 auto;
+}
+
+.vals-container{
+    width: calc(100% - 270px);
+    text-align:left;
+    font-size: 20px;
+}
+
+.vals-item{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 18px;
+}
+
+.cupom-tit{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.cupom-tit img{
+    width: auto;
+    height: 40px;
+}
+
+.cupom-tit{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.vals-cupom{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    align-items: center;
+    justify-content: center;
+}
+
+.vals-cupom input{
+    border: 1px solid #000;
+    border-radius: 3px;
+    height: 25px;
+    padding-left: 8px;
+}
+
+.vals-cupom input::placeholder{
+    color: #323232;
+    font-family: "Kanit", sans-serif;
+}
+
+.cupom-add a{
+    text-decoration: none;
+    color: #D86000;
+}
+
+.button{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    left: 33rem;
+}
+
+.next-button{
+    font-family: "Kanit", sans-serif;
+    padding: 10px 20px;
+    width: 300px;
+    background-color: #D86000;
+    color: #f0f0f0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    text-decoration: none;
+}

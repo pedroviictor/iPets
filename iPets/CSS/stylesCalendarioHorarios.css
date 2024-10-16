@@ -1,0 +1,330 @@
+/* Estilos - Calendário */
+
+main h2{
+    text-align: center;
+    color: #00154B;
+    font-weight: bold;
+    font-size: 30px;
+}
+
+main p{
+    text-align: center;
+    font-size: 20px;
+}
+
+#calendar-container{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; 
+    margin: 0 auto; 
+}
+
+#calendar-container button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #D86000;
+    padding: 5px;
+    transition: color 0.3s ease;
+}
+
+#calendar h4{
+    text-align: left;
+    margin-bottom: 10px;
+    font-size: 15px;
+    font-weight: normal;
+}
+
+#calendar table{
+    width: 100%;
+    border-collapse: collapse;
+}
+
+#calendar th{
+    padding: 10px;
+    border-bottom: 2px solid #ddd;
+    font-weight: normal;
+}
+
+#calendar td{
+    width: 14.28%;
+    height: 50px;
+    text-align: center;
+    vertical-align: middle;
+    border: none;
+}
+
+
+@media (max-width: 600px){
+    #calendar-container {
+        max-width: 100%; 
+        margin: 0 10px;
+    }
+}
+
+.buttons{
+    display: flex;
+    position: absolute;
+    text-align: center;
+    left: 23.5rem;
+}
+
+.buttons a{
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.back-button{
+    font-family: "Kanit", sans-serif;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+    font-size: 20px;
+}
+
+.next-button{
+    font-family: "Kanit", sans-serif;
+    padding: 10px 20px;
+    width: 300px;
+    background-color: #D86000;
+    color: #f0f0f0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+td{
+    width: 14.28%;
+    height: 50px;
+    text-align: center;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.current-day{
+    background-color: #ffeb3b; /* Cor provisória */
+}
+
+.selected-day{
+    background-color: #00154B;
+    color: white;
+}
+
+.legenda{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.legenda div{
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.legenda .elemento-leg{
+    width: 20px;
+    height: 20px;
+    border: 1px solid #ddd;
+}
+
+.legenda .selec{
+    background-color: #00154B;
+}
+
+.legenda .atual{
+    background-color: #ffeb3b; /* Cor provisória */
+}
+
+.legenda .disp{
+    background-color: #49a63a;
+}
+
+.legenda .ocup{
+    background-color: #787878;
+}
+
+/* Estilos - Horários */
+
+.horarios-dia{
+    height: 200px auto;
+    width: 1000px;
+    border: 1px solid #d9d9d9;
+    margin: 0 auto; 
+    border-radius: 20px;
+    line-height: 15px;
+    box-shadow: 0 1.5px 0 rgba(0, 0, 0, 0.1);
+    border-left: 35px solid #00154B;
+}
+
+.horarios-dia hr{
+    border-color: #d9d9d9;
+}
+
+.horarios-dia .txt{
+    margin-left: 40px;
+}
+
+.horarios-dia p{
+    text-align: left;
+    font-size: 16px;
+}
+
+.horarios{
+    line-height: 100px;
+}
+
+.horarios ul{
+    display: inline-flex;
+}
+
+.horarios li{
+    list-style: none;
+    background-color: #00154B;
+    margin-right: 70px;
+    font-size: 20px;
+    text-align: center;
+    height: 55px;
+    width: 100px;
+    border-radius: 7px;
+    line-height: 57px;
+    box-shadow: 0 1.5px 0 rgba(0, 0, 0, 0.25);
+}
+
+.horarios li a{
+    text-decoration: none;
+    color: white;
+}
+
+.button{
+    display: flex;
+    position: absolute;
+    text-align: center;
+    left: 34rem;
+}
+
+.button a{
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.back-button{
+    font-family: "Kanit", sans-serif;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 250px;
+    font-size: 20px;
+}
+
+.overlay{
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.overlay:target{
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup-container{
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 35%;
+    position: relative;
+    transition: all 0.3s ease-in-out;
+}
+
+.popup-container .txt-popup{
+    max-height: 30%;
+    overflow: auto;
+    font-size: 20px;
+    font-style: bold;
+    margin-top: -20px;
+}
+
+.popup-container .popup-content{
+    line-height: 50px;
+}
+
+.popup-container .txt-popup p{
+    margin-top: -20px;
+    color: #C46100;
+}
+
+.img-popup{
+    margin-top: px;
+    float:right;
+    width: 150px;
+    height: 150px;
+}
+
+.img-popup img{
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    object-position: 20% 10%;
+    border-radius: 15px;
+}
+
+.buttons-popup{
+    display: flex;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.buttons-popup a{
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.back-button-popup{
+    font-family: "Kanit", sans-serif;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+    font-size: 20px;
+}
+
+.next-button-popup{
+    font-family: "Kanit", sans-serif;
+    padding: 10px 20px;
+    width: 300px;
+    background-color: #D86000;
+    color: #f0f0f0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+@media screen and (max-width: 700px){
+    .popup-container{
+      width: 70%;
+    }
+  }

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/stylesCarrinho2.css">
+    <link rel="stylesheet" href="./CSS/stylesPadrão.css">
+    <script src="./JS/scriptCarrinho2.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <title>Carrinho</title>
+</head>
+
+<body>
+
+    <nav class="navbar">
+
+        <a href="./index.html">
+            <img src="./IMG/ipets-logo.png" class="navbar-logo">
+        </a>
+
+        <div class="navbar-pesq">
+            <div class="navbar-pesq-input-container">
+                <input type="text" placeholder="Loja ou item para seu pet, busque aqui" class="navbar-pesq-input">
+                <img src="./IMG/pesquisa-icon.png">
+            </div>
+        </div>
+        <a class="navbar-perfil">
+            <div class="navbar-perfil-img">
+                <img src="./IMG/perfil-icon.png">
+            </div>
+            <p>Entre ou cadastre-se</p>
+        </a>
+        <a class="navbar-veterinario" href="./veterinario.html">
+            <img src="./IMG/vet-icon.png">
+        </a>
+        <a class="navbar-localiza">
+            <img src="./IMG/localizacao-icon.png">
+        </a>
+        <a class="navbar-carrinho" href="./carrinho1.html">
+            <div>
+                <img src="./IMG/carrinho-icon.png">
+            </div>
+            <p>R$ 0,00</p>
+        </a>
+    </nav>
+
+    <main>
+        <h2 style="font-weight: 600;">Carrinho</h2>
+
+        <p class="tit">Entregar no endereço</p>
+        <div class="ende">
+            <img src="./IMG/icon-localizacaoCarrinho.png" alt="">
+            <div class="info-ende">
+                <h4>Rua da Alegria, 202</h4>
+                <p>Jardim do Hospício</p>
+            </div>
+            <div class="ende-a">
+                <a href="">Trocar</a>
+            </div>
+        </div>
+
+        <br>
+
+        <p class="tit">Pagamento</p>
+        <div class="tabs-container">
+            <div class="tab" onclick="showTab('app')">
+                <span id="tab-app" class="tab-title active">Pagar no App</span>
+            </div>
+            <div class="tab" onclick="showTab('entrega')">
+                <span id="tab-entrega" class="tab-title">Pagar na Entrega</span>
+            </div>
+        </div>
+
+        <form id="pag-form">
+            <div id="app-content" class="content-container">
+
+                <div class="pag-method-title">
+                    <img src="./IMG/icon-cartao.png" id="img-pag-method-tit" alt="Ícone Cartão">
+                    <span>Cartão de crédito</span>
+                </div>
+
+                <hr>
+                <input type="text" id="card-number" required placeholder="Número do cartão*" maxlength="19"
+                    inputmode="numeric" pattern="\d*" class="input-pag">
+
+                <input type="text" id="card-name" required placeholder="Nome impresso no cartão*" class="input-pag">
+
+                <div class="half-width-container">
+                    <div class="half-width">
+                        <input type="text" id="expiry-date" required placeholder="MM/AA*" maxlength="5"
+                            inputmode="numeric" pattern="\d{2}/\d{2}" class="input-pag">
+                        <p>Data de validade</p>
+                    </div>
+
+                    <div class="half-width">
+                        <input type="text" id="cvv" required placeholder="CVV*" maxlength="3" pattern="\d*"
+                            class="input-pag">
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <div id="entrega-content" class="content-container" style="display: none;">
+            <div class="pag">
+                <div class="pag-element" id="pix" data-payment="pix">
+                    <img src="./IMG/icone-pix.png" alt="Logo do Pix">
+                    <p>Pix</p>
+                </div>
+                <div class="pag-element" id="cred" data-payment="cred">
+                    <img src="./IMG/icon-cartao.png" alt="Ícone representando um cartão">
+                    <p>Cartão de Crédito</p>
+                </div>
+                <div class="pag-element" id="deb" data-payment="deb">
+                    <img src="./IMG/icon-cartao.png" alt="Ícone representando um cartão">
+                    <p>Cartão de Débito</p>
+                </div>
+                <div class="pag-element" id="din" data-payment="din">
+                    <img src="./IMG/icon-dinheiro.png" alt="Ícone representando uma nota de dinheiro">
+                    <p>Dinheiro</p>
+                </div>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="button">
+            <a class="next-button" href="#popup">Finalizar</a>
+        </div>
+
+        <br>
+    </main>
+
+    <div id="popup" class="overlay">
+        <div class="popup-container">
+            <div class="txt-popup">
+                <h2>Revisar Pedido</h2>
+                <h3>Itens</h3>
+                <br>
+                <div class="pop-itens">
+                    <div class="pop-itens-prod">
+                        <p>Ração Nutripássaros Insetívoros e Frugívoros 350g</p>
+                        <p style="text-align: right;">R$ 39,80</p>
+                    </div>
+                    <div class="pop-itens-prod">
+                        <p>Balanço colorido interativo para aves</p>
+                        <p style="text-align: right;">R$ 14,90</p>
+                    </div>
+                </div>
+                <hr>
+                <h3>Entrega</h3>
+                <br>
+                <div class="pop-ent">
+                    <div class="pop-ent-item">
+                        <p style="font-weight: normal; font-size: 20px;">Rápida</p>
+                        <p>Hoje, 120 - 150 mins</p>
+                    </div>
+                    <div class="pop-ent-item" style="text-align: right;">
+                        <p style="font-weight: normal; font-size: 20px;">Rua da Alegria, 202</p>
+                        <p>Jardim do Hospício</p>
+                    </div>
+                </div>
+                <hr>
+                <h3>Pagamento</h3>
+                <br>
+
+                <div class="pop-pag">
+                    <div class="pop-pag-item">
+                        <p style="font-weight: normal; font-size: 20px;">Dinheiro</p>
+                    </div>
+                    <div class="pop-pag-item" style="text-align: right;">
+                        <p style="font-weight: normal; font-size: 20px;">R$ 66,60</p>
+                    </div>
+                </div>
+            </div>
+            <div class="buttons-popup">
+                <a class="back-button-popup" onclick="history.back()">Voltar</a>
+                <a class="next-button-popup" href="./aguardo.html">Confirmar</a>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-element">
+            <h5>iPets</h5>
+            <p>Quem somos</p>
+            <p>Perguntas frequentes</p>
+            <p>Fale conosco</p>
+            <p>Entregadores</p>
+        </div>
+        <div class="footer-element">
+            <h5>Descubra</h5>
+            <p>Seja um parceiro</p>
+            <p>Alimentador Automático</p>
+            <p>Clube de recompensas</p>
+        </div>
+        <div class="footer-element">
+            <h5>Contatos</h5>
+            <p>ipetscompany@gmail.com</p>
+            <div class="footer-element-contatos">
+                <a href=""><img src="./IMG/instagram-icon.png"></a>
+                <a href=""><img src="./IMG/twitter-icon.png"></a>
+                <p>@iPetsCompany</p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

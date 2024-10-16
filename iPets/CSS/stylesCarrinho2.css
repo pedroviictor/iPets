@@ -1,0 +1,297 @@
+/* Estilos - Carrinho 2 */
+
+main {
+    padding-left: 40px;
+    padding-right: 40px;
+}
+
+.tit {
+    font-size: 23px;
+    font-weight: 500;
+}
+
+main div h4 {
+    font-weight: normal;
+    font-size: 20px;
+}
+
+main div p {
+    font-weight: 300;
+}
+
+main div img {
+    width: auto;
+    height: 45px;
+    margin-top: 15px;
+    margin-right: 20px;
+}
+
+.ende {
+    display: flex;
+    line-height: 10px;
+    width: 100%;
+}
+
+.info-ende {
+    font-size: 18px;
+    line-height: 1px;
+}
+
+.ende-a {
+    margin-left: 5rem;
+    line-height: 77px;
+}
+
+.ende-a a {
+    text-decoration: none;
+    color: #D86000;
+}
+
+.tabs-container {
+    display: flex;
+    margin-bottom: 20px;
+    gap: 100px;
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.tab-title {
+    font-size: 22px;
+    padding: 10px 90px;
+    cursor: pointer;
+    border: 2px solid #8E8E8E;
+    border-radius: 15px;
+}
+
+.active {
+    border: 2px solid #D86000;
+    color: #d86000;
+}
+
+.tab-title.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+}
+
+.content-container {
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+.content-container input {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    border: 1px solid #0c0c0c85;
+    outline: none;
+}
+
+.content-container input::placeholder{
+    font-size: 15px;
+}
+
+.pag .pag-element {
+    display: flex;
+    align-items: center;
+    line-height: 35px;
+    border: 1px solid #000;
+    margin-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 7px;
+    cursor: pointer;
+    box-shadow: 0 1.5px 3px rgba(0, 0, 0, 0.25);
+}
+
+.pag .pag-element p {
+    font-size: 20px;
+    font-weight: normal;
+}
+
+.pag .pag-element.selected-payment {
+    border: 2px solid #D86000;
+    box-shadow: 0 1.5px 3px rgba(0, 0, 0, 0.35);
+}
+
+.pag img {
+    margin-top: -1px;
+}
+
+#app-content {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 15px;
+    box-shadow: 0 1.5px 3px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+    justify-content: center;
+    align-items: center;
+}
+
+#app-content .pag-method-title {
+    display: flex;
+    font-size: 20px;
+    align-items: center;
+    margin-top: -30px;
+    text-align: center;
+}
+
+#app-content .pag-method-title span {
+    margin-bottom: -14px;
+    margin-left: -10px;
+}
+
+#img-pag-method-tit {
+    width: auto;
+    height: 35px;
+}
+
+.half-width-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.half-width {
+    width: 48%;
+    display: block;
+}
+
+.half-width p {
+    margin-left: 1px;
+    color: #8E8E8E;
+    margin-top: -10px;
+    font-size: 14px;
+}
+
+.button {
+    display: flex;
+    position: absolute;
+    text-align: center;
+    left: 33rem;
+}
+
+.next-button {
+    font-family: "Kanit", sans-serif;
+    padding: 10px 20px;
+    width: 300px;
+    background-color: #D86000;
+    color: #f0f0f0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.5);
+    transition: opacity 500ms;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.overlay:target {
+    visibility: visible;
+    opacity: 1;
+}
+
+.popup-container {
+    margin: 70px auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    width: 35%;
+    transition: all 0.3s ease-in-out;
+}
+
+.popup-container h2 {
+    margin-top: -10px;
+}
+
+.popup-container h3 {
+    font-weight: normal;
+    font-size: 23px;
+    color: #D86000;
+    margin-bottom: -20px;
+}
+
+.popup-container .pop-itens-prod {
+    display: table;
+    width: 100%;
+}
+
+.pop-itens-prod p {
+    display: table-cell;
+    font-weight: normal;
+    font-size: 20px;
+    width: 50%;
+}
+
+.popup-container .pop-ent {
+    display: table;
+    width: 100%;
+}
+
+.pop-ent .pop-ent-item {
+    display: table-cell;
+    line-height: 5px;
+    width: 50%;
+}
+
+.popup-container .pop-pag {
+    display: table;
+    width: 100%;
+}
+
+.pop-pag .pop-pag-item {
+    display: table-cell;
+    line-height: 5px;
+    width: 50%;
+}
+
+.buttons-popup {
+    display: flex;
+    text-align: center;
+    margin-top: 10px;
+}
+
+.buttons-popup a {
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.back-button-popup {
+    font-family: "Kanit", sans-serif;
+    padding: 10px 20px;
+    background-color: #f0f0f0;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 150px;
+    font-size: 20px;
+}
+
+.next-button-popup {
+    font-family: "Kanit", sans-serif;
+    padding: 10px 20px;
+    width: 300px;
+    background-color: #D86000;
+    color: #f0f0f0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 20px;
+}
