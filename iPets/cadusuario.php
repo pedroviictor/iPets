@@ -60,7 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($cmd->execute()) {
             echo "<script>
                     alert('Cadastrado com sucesso!');
-                    window.location.href = 'login.php';
+                    window.location.href = 'loginusuario.php';
                   </script>";
         } else {
             echo "<script>

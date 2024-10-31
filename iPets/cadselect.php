@@ -26,7 +26,7 @@
         </div>
 
         <br> <br>
-        <a href="login.php">Já possui conta? Clique aqui</a>
+        <a href="loginselect.php">Já possui conta? Clique aqui</a>
     
 
 </body>
