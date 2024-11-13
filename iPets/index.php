@@ -1,19 +1,31 @@
+<?php
+
+session_start();
+
+include_once("config.php");
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./CSS/stylesHome.css">
-  <link rel="stylesheet" href="./CSS/stylesPadrão.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-  <script src="./JS/scriptHome.js" defer></script>
-  <title>iPets</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./CSS/stylesHome.css">
+    <link rel="stylesheet" href="./CSS/stylesPadrão.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
+    <script src="./JS/scriptHome.js" defer></script>
+    <title>iPets</title>
 </head>
+
 <body>
     <header class="nav" style="background-image: url(./IMG/nav-back.png);">
-        
+
         <nav class="navbar">
 
             <a href="./index.html">
@@ -26,12 +38,21 @@
                     <img src="./IMG/pesquisa-icon.png">
                 </div>
             </div>
-            <a href="cadselect.php" class="navbar-perfil">
-                <div class="navbar-perfil-img">
-                    <img src="./IMG/perfil-icon.png">
-                </div>
-                <p>Entre ou cadastre-se</p>
-            </a>
+            <?php if (isset($_SESSION['user_data'])): ?>
+                <a href="./perfilusuario.php" class="navbar-perfil">
+                    <div class="navbar-perfil-img">
+                        <img src="./IMG/perfil-icon.png">
+                    </div>
+                    <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+                </a>
+            <?php else: ?>
+                <a href="cadselect.php" class="navbar-perfil">
+                    <div class="navbar-perfil-img">
+                        <img src="./IMG/perfil-icon.png">
+                    </div>
+                    <p>Entre ou cadastre-se</p>
+                </a>
+            <?php endif; ?>
             <a class="navbar-veterinario" href="./veterinario.html">
                 <img src="./IMG/vet-icon.png">
             </a>
@@ -97,7 +118,7 @@
         <br>
 
         <div class="cards-home">
-            
+
             <div class="card-home">
                 <img src="./IMG/card-home-1.png">
             </div>
@@ -124,7 +145,7 @@
                                 <h4>Pet Shop Store</h4>
                                 <p>Cães e Gatos - 1,2 km</p>
                                 <p>Aberto até 19:00 - Serviços até 18:00</p>
-                            </div> 
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -136,7 +157,7 @@
                                 <h4>Pet Shop Store</h4>
                                 <p>Cães e Gatos - 1,2 km</p>
                                 <p>Aberto até 19:00 - Serviços até 18:00</p>
-                            </div> 
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -148,7 +169,7 @@
                                 <h4>Pet Shop Store</h4>
                                 <p>Cães e Gatos - 1,2 km</p>
                                 <p>Aberto até 19:00 - Serviços até 18:00</p>
-                            </div> 
+                            </div>
                         </div>
                     </a>
                 </div>
@@ -197,4 +218,5 @@
         </div>
     </footer>
 </body>
+
 </html>

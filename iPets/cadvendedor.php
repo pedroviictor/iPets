@@ -106,7 +106,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>Cadastro | iPets</title>
 </head>
 
-<body style="background: url('img/fundo.png') no-repeat center center fixed; background-size: cover;">
+<body style="background-color:#00154B">
     <div class="box">
         <form action="cadvendedor.php" method="POST" onsubmit="return validarCNPJ(document.getElementById('cnpj').value)">
             <h1>Cadastre sua loja aqui!</h1>

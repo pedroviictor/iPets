@@ -89,7 +89,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="./CSS/stylecadus.css">
     <title>Cadastro | iPets</title>
 </head>
-<body style="background: url('img/fundo.png') no-repeat center center fixed; background-size: cover;">
+<body style="background-color:#00154B">
     <div class="box">
         <form action="cadusuario.php" method="POST">
             <h1>Cadastre-se aqui!</h1>
@@ -130,7 +130,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <script>
         $('#cpf').mask('000.000.000-00');
-        $('#telefone').mask('(00) 00000-0000');
+        $('#telefone').mask('(00) 0 0000-0000');
     </script>
 
 </body>

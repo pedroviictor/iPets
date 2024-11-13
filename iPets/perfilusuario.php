@@ -30,7 +30,7 @@ $user_data = $_SESSION['user_data'];
 
     <nav class="navbar">
 
-        <a href="./index.html">
+        <a href="./index.php">
             <img src="./IMG/ipets-logo.png" class="navbar-logo">
         </a>
 
@@ -40,12 +40,21 @@ $user_data = $_SESSION['user_data'];
                 <img src="./IMG/pesquisa-icon.png">
             </div>
         </div>
-        <a href="./cadselect.php" class="navbar-perfil">
-            <div class="navbar-perfil-img">
-                <img src="./IMG/perfil-icon.png">
-            </div>
-            <p>Entre ou cadastre-se</p>
-        </a>
+        <?php if (isset($_SESSION['user_data'])): ?>
+                <a href="./perfilusuario.php" class="navbar-perfil">
+                    <div class="navbar-perfil-img">
+                        <img src="./IMG/perfil-icon.png">
+                    </div>
+                    <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+                </a>
+            <?php else: ?>
+                <a href="cadselect.php" class="navbar-perfil">
+                    <div class="navbar-perfil-img">
+                        <img src="./IMG/perfil-icon.png">
+                    </div>
+                    <p>Entre ou cadastre-se</p>
+                </a>
+            <?php endif; ?>
         <a class="navbar-veterinario" href="./veterinario.html">
             <img src="./IMG/vet-icon.png">
         </a>

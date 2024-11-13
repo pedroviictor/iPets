@@ -25,6 +25,7 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
             $user_data = $result->fetch_assoc();
 
             $_SESSION['user_data'] = [
+                'id' => $user_data['user_id'],
                 'nome' => $user_data['user_name'],
                 'email' => $user_data['user_email'],
                 'telefone' => $user_data['user_tel'],
@@ -51,7 +52,7 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
     <title>Login | iPets</title>
 </head>
 
-<body style="background: url('img/fundo.png') no-repeat center center fixed; background-size: cover;">
+<body style="background-color:#00154B">
     <div>
         <h1>Bem-vindo de volta!</h1>
         <form method="POST">
@@ -61,7 +62,7 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
             <br><br>
             <button type="submit">Entrar</button>
             <br><br>
-            <a href="select.php">Não possui conta? Crie aqui</a>
+            <a href="cadselect.php">Não possui conta? Crie aqui</a>
         </form>
     </div>
 </body>

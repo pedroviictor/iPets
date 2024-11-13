@@ -7,7 +7,7 @@
     <title>Seleção de Perfil | iPets</title>
 </head>
 <body>
-    <body style="background: url('img/fundo.png') no-repeat center center fixed; background-size: cover;"></body>
+    <body style="background-color:#00154B">
     <div>
         <h1>Bem-vindo!</h1>
         <p> Qual tipo de conta gostaria de entrar?</p>

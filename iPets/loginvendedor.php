@@ -25,6 +25,7 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
             $store_data = $result->fetch_assoc();
 
             $_SESSION['store_data'] = [
+                'id' => $store_data['store_id'],
                 'nome' => $store_data['store_name'],
                 'email' => $store_data['store_email'],
                 'telefone' => $store_data['store_tel'],
@@ -54,7 +55,7 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
     <title>Login | iPets</title>
 </head>
 
-<body style="background: url('img/fundo.png') no-repeat center center fixed; background-size: cover;">
+<body style="background-color:#00154B">
     <div>
         <h1>Bem-vindo de volta!</h1>
         <form method="POST">

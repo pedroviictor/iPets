@@ -6,8 +6,8 @@
     <link rel="stylesheet" href="./CSS/styleselect.css">
     <title>Seleção de Perfil | iPets</title>
 </head>
-<body>
-    <body style="background: url('img/fundo.png') no-repeat center center fixed; background-size: cover;"></body>
+<body style="background-color:#00154B">
+    <body>
     <div>
         <h1>Prazer em conhecê-lo!</h1>
         <p> Qual tipo de conta gostaria de criar?</p>
@@ -18,7 +18,6 @@
                     <a href="cadusuario.php">
                     <img src="img/cliente 1.png">
                 </a>
-                    
                     <a href="cadvendedor.php">
                     <img src="img/loja.png">
                 </a>
@@ -27,7 +26,6 @@
 
         <br> <br>
         <a href="loginselect.php">Já possui conta? Clique aqui</a>
-    
 
 </body>
 </html>
