@@ -145,7 +145,7 @@ main a{
 
 .descricao-produto{
     color: #787878;
-    margin-top: -30px;
+    margin-top: -5px;
     font-size: 16px;
 }
 
@@ -156,6 +156,7 @@ main a{
 }
 
 .produto-img{
+    margin-right: -200px;
     width: auto;
     height: 150px;
     border-radius: 10px;
@@ -241,4 +242,18 @@ input {
 
 input::placeholder {
     color: rgba(255, 255, 255, 0.555);
+}
+
+#delete-btn {
+    color: #000;
+    transition: 0.3s;
+    background-color: transparent; 
+    border: none; 
+    cursor: pointer;
+    margin-left: -70px;
+}
+
+#delete-btn:hover {
+    color: red;
+    transition: 0.3s;
 }

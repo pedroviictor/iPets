@@ -2,18 +2,47 @@
 
 session_start();
 
+include 'config.php';
+
 if (!isset($_SESSION['store_data'])) {
     header("Location: loginvendedor.php");
     exit();
 }
 
-$store_data = $_SESSION['store_data'];
+$sql = "SELECT * FROM products ORDER BY product_name ASC";
+$result = $connection->query($sql);
 
-include 'config.php';
+$store_data = $_SESSION['store_data'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $store_id = $_SESSION['store_data']['id'];
+
+    if (isset($_POST['delete_type'])) {
+
+        $delete_type = $_POST['delete_type'];
+        $product_id = isset($_POST['product_id']) ? $_POST['product_id'] : null;
+        $service_id = isset($_POST['service_id']) ? $_POST['service_id'] : null;
+
+        if ($delete_type == 'products' && $product_id !== null) {
+
+            $delete_sql = $connection->prepare("DELETE FROM products WHERE product_id = ? AND store_id = ?");
+            $delete_sql->bind_param("ii", $product_id, $store_id);
+            $delete_sql->execute();
+
+            header("Location: perfilvendedor.php?success=delete_product");
+            exit();
+
+        } elseif ($delete_type == 'services' && $service_id !== null) {
+
+            $delete_sql = $connection->prepare("DELETE FROM services WHERE services_id = ? AND store_id = ?");
+            $delete_sql->bind_param("ii", $service_id, $store_id);
+            $delete_sql->execute();
+
+            header("Location: perfilvendedor.php?success=delete_service");
+            exit();
+        }
+    }
 
     if (isset($_POST['form_type'])) {
 
@@ -88,11 +117,17 @@ if (isset($_GET['success'])) {
 
         echo "<script>alert('Serviço adicionado com sucesso.');</script>";
 
-    }
-
-    if ($_GET['success'] == 'product') {
+    } elseif ($_GET['success'] == 'product') {
 
         echo "<script>alert('Produto adicionado com sucesso.');</script>";
+
+    } elseif ($_GET['success'] == 'delete_product') {
+
+        echo "<script>alert('Produto deletado com sucesso.');</script>";
+
+    } elseif ($_GET['success'] == 'delete_service') {
+
+        echo "<script>alert('Serviço deletado com sucesso.');</script>";
 
     }
 }
@@ -160,7 +195,8 @@ if (isset($_GET['success'])) {
 
 
             <div class="infos-loja-container">
-            <button style="border: none; background-color: transparent; color: #D86000; cursor: pointer;">Editar informações</button>
+                <button style="border: none; background-color: transparent; color: #D86000; cursor: pointer;">Editar
+                    informações</button>
                 <div class="info-loja">
                     <h3>Segmento</h3>
                     <div class="info">
@@ -225,16 +261,30 @@ if (isset($_GET['success'])) {
                         <div class="divisao-head">
                             <h4 class="divisao-titulo">Produtos</h4>
                         </div>
-                        <div class="produto">
-                            <div class="produto-info">
-                                <h5 class="nome-produto">Ração</h5>
-                                <p class="descricao-produto">Banho simples para cães de pequeno e médio porte</p>
-                                <h6 class="preco-produto">R$ 60,00</h6>
+
+                        <?php
+
+                        $sql = "SELECT * FROM products ORDER BY product_name ASC";
+                        $result = $connection->query($sql);
+
+                        while ($products_data = mysqli_fetch_assoc($result)) {
+                            echo "                        <div class='produto'>
+                            <div class='produto-info'>
+                                <h5 class='nome-produto'>" . $products_data['product_name'] . "</h5>
+                                <p class='descricao-produto'>" . $products_data['product_description'] . "</p>                                <p class='descricao-produto'>Quantidade em estoque: " . $products_data['stock_quantity'] . "</p>                                <h6 class='preco-produto'>R$ " . $products_data['product_price'] . "</h6>
                             </div>
-                            <div class="produto-img-container">
-                                <img class="produto-img" src="./IMG/servicoIcon.png">
+                            <div class='produto-img-container'>
+                                <img class='produto-img' src='./IMG/servicoIcon.png'>
                             </div>
-                        </div>
+                            <form method='POST' style='display:inline;'>
+                                <input type='hidden' name='delete_type' value='products'>
+                                <input type='hidden' name='product_id' value='" . $products_data['product_id'] . "'>
+                                <button id='delete-btn' type='submit' onclick=\"return confirm('Tem certeza que deseja excluir este produto?')\">Excluir</button>
+                            </form>
+                        </div>";
+                        }
+                        ?>
+
                     </div>
                 </div>
             </div>
@@ -261,16 +311,31 @@ if (isset($_GET['success'])) {
                         <div class="divisao-head">
                             <h4 class="divisao-titulo">Serviços</h4>
                         </div>
-                        <div class="produto">
-                            <div class="produto-info">
-                                <h5 class="nome-produto">Banho de Pet</h5>
-                                <p class="descricao-produto">Banho simples para cães de pequeno e médio porte</p>
-                                <h6 class="preco-produto">R$ 60,00</h6>
+
+                        <?php
+
+                        $sql = "SELECT * FROM services ORDER BY services_name ASC";
+                        $result = $connection->query($sql);
+
+                        while ($services_data = mysqli_fetch_assoc($result)) {
+                            echo "                        <div class='produto'>
+                            <div class='produto-info'>
+                                <h5 class='nome-produto'>" . $services_data['services_name'] . "</h5>
+                                <p class='descricao-produto'>" . $services_data['services_description'] . "</p>
+                                <h6 class='preco-produto'>R$ " . $services_data['services_price'] . "</h6>
                             </div>
-                            <div class="produto-img-container">
-                                <img class="produto-img" src="./IMG/servicoIcon.png">
+                            <div class='produto-img-container'>
+                            <img class='produto-img' src='./IMG/servicoIcon.png'>
                             </div>
-                        </div>
+                                <form method='POST' style='display:inline;'>
+                                    <input type='hidden' name='delete_type' value='services'>
+                                    <input type='hidden' name='service_id' value='" . $services_data['services_id'] . "'>
+                                    <button id='delete-btn' type='submit' onclick=\"return confirm('Tem certeza que deseja excluir este serviço?')\">Excluir</button>
+                                </form>
+                            </div>";
+                        }
+                        ?>
+
                     </div>
                 </div>
             </div>
