@@ -27,7 +27,7 @@ if (isset($_SESSION['user_data'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="./CSS/stylesLojas.css">
+    <link rel="stylesheet" href="./CSS/stylesCalendarioHorarios.css">
     <link rel="stylesheet" href="./CSS/stylesPadrão.css">
     <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,7 +35,7 @@ if (isset($_SESSION['user_data'])) {
     <link
         href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-    <title>Lojas</title>
+    <title>Agendamento</title>
 </head>
 
 <body>
@@ -87,43 +87,63 @@ if (isset($_SESSION['user_data'])) {
         </a>
 
     </nav>
+
     <main>
-        <div class="lojas-content">
-            <div class="lojas-container">
+        <h2>Horários</h2>
+        <p class="descriçao">Selecione o horário que deseja agendar.</p>
 
-                <?php
-                $sql = "SELECT * FROM store ORDER BY RAND() LIMIT 9";
-                $result = $connection->query($sql);
+        <br>
 
-                while ($store_data = mysqli_fetch_assoc($result)) {
-                    echo "
-                        <div class='lojas'>
-                            <a class='lojas-a' href='./paginaLoja.php?store_id=" . $store_data['store_id'] . "'>
-                                <div class='lojas-info-total'>
-                                    <input type='hidden' name='product_id' value='" . $store_data['store_id'] . "'>
-                                    <img src='./IMG/pet-shop-store-icon.png'>
-                                    <div class='lojas-info'>
-                                        <h4>" . $store_data['store_name'] . "</h4>
-                                        <p>Cães e Gatos - 1,2 km</p>
-                                        <p>Aberto até 19:00 - Serviços até 18:00</p>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>";
-                }
-                ?>
+        <!-- Modelo que usaríamos para criar todos os contêiners com os dias e horas disponíveis para agendamento -->
+        <div class="horarios-dia">
+            <h3 class="txt" id="dia">30 JUL. 2024</h3>
+            <p class="txt" class="desc">3 Horários encontrados</p>
+            <hr noshade="noshade" size="1">
+            <div class="horarios">
+                <ul>
+                    <li><a href="#popup">10:00</a></li>
+                    <li><a href="#popup">14:00</a></li>
+                    <li><a href="#popup">18:00</a></li>
+                </ul>
             </div>
         </div>
+        <!-- Fim do modelo -->
 
-        <div class="anuncios-meio">
-            <div class="anuncio-meio">
-                <img src="./IMG/anuncio1LojasMeio.png">
-            </div>
-            <div class="anuncio-meio">
-                <img src="./IMG/anuncio2LojasMeio.png">
+        <br>
+
+        <div class="button">
+            <a class="back-button" onclick="history.back()">Cancelar</a>
+        </div>
+
+        <div id="popup" class="overlay">
+            <div class="popup-container">
+                <div class="txt-popup">
+                    <h3>Confirmar Agendamento de:</h3>
+                    <div class="popup-content">
+                        <div class="img-popup">
+                            <img src="https://static.wixstatic.com/media/5e76bd_d1ad86125edc4a4598525226bf03b369~mv2.jpg/v1/crop/x_778,y_25,w_593,h_748/fill/w_460,h_580,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Bath-Dog.jpg"
+                                alt="Cachorro da raça Yorkshire terrier com uma touca de banho cor de rosa">
+                        </div>
+                        <div>
+                            <p>Banho canino simples P</p>
+                            <!-- ↑ Aqui mostraria, coletando por algum método (provavelmente usando JS para, quando selecionar um serviço, guardar o nome dele); Como exemplo, usamos Banho canino simples P -->
+                            <p>30 de Julho de 2024</p>
+                            <!-- ↑ Aqui mostraria, pegando com base nas escolhas do usuário realizadas (coletaríamos após ele selecionar a hora, fazendo uma filtragem dos dias anteriormente selecionados, deixando apenas aquele no qual deseja realizar o agendamento; Creio ser possível realizar isso com JS), o dia selecionado para agendar; Como exemplo, usamos dia 30 de Julho de 2024 -->
+                            <!-- ↑ No JS da página do calendário, tem um lugar onde são armazenados os dias selecionados, ali usaríamos para tanto realizar essa filtragem quanto para mostrar os dias com as horas possíveis para agendamento, na parte de cima da página -->
+                            <p>10:00</p>
+                            <!-- ↑ Aqui mostraria o horário selecionado agora (também usando JS, apenas coletando a hora na qual foi selecionada) -->
+                        </div>
+                    </div>
+                </div>
+                <div class="buttons-popup">
+                    <a class="back-button-popup" onclick="history.back()">Voltar</a>
+                    <a class="next-button-popup" href="./aguardo.php">Confirmar</a>
+                </div>
             </div>
         </div>
     </main>
+
+    <br>
 
     <footer class="footer">
         <div class="footer-element">

@@ -4,6 +4,20 @@ session_start();
 
 include_once("config.php");
 
+$grand_total = 0;
+
+if (isset($_SESSION['user_data'])) {
+    $user_id = $_SESSION['user_data']['id'];
+
+    $sql = "SELECT total FROM cart WHERE user_id = $user_id LIMIT 1";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $grand_total = $row['total'];
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -29,7 +43,7 @@ include_once("config.php");
 
         <nav class="navbar">
 
-            <a href="./index.html">
+            <a href="./index.php">
                 <img src="./IMG/ipets-logo.png" class="navbar-logo">
             </a>
 
@@ -46,6 +60,12 @@ include_once("config.php");
                     </div>
                     <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
                 </a>
+                <a class="navbar-carrinho" href="./carrinho1.php">
+                    <div>
+                        <img src="./IMG/carrinho-icon.png">
+                    </div>
+                    <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
+                </a>
             <?php else: ?>
                 <a href="cadselect.php" class="navbar-perfil">
                     <div class="navbar-perfil-img">
@@ -53,19 +73,20 @@ include_once("config.php");
                     </div>
                     <p>Entre ou cadastre-se</p>
                 </a>
+                <a class="navbar-carrinho" href="./carrinho1.php">
+                    <div>
+                        <img src="./IMG/carrinho-icon.png">
+                    </div>
+                    <p>R$ 0,00</p>
+                </a>
             <?php endif; ?>
-            <a class="navbar-veterinario" href="./veterinario.html">
+            <a class="navbar-veterinario" href="./veterinario.php">
                 <img src="./IMG/vet-icon.png">
             </a>
             <a class="navbar-localiza">
                 <img src="./IMG/localizacao-icon.png">
             </a>
-            <a class="navbar-carrinho" href="./carrinho1.html">
-                <div>
-                    <img src="./IMG/carrinho-icon.png">
-                </div>
-                <p>R$ 0,00</p>
-            </a>
+
         </nav>
         <div class="nav-content">
             <h2>Tudo o que o seu pet precisa, na palma da sua mão</h2>
@@ -80,35 +101,35 @@ include_once("config.php");
 
         <div class="categoria-buttons">
             <div class="categoria-button">
-                <a href="./categoriaCaes.html">
+                <a href="./categoriaCaes.php">
                     <div class="categoria-button-img-back"></div>
                     <img src="./IMG/caes-button-img.png">
                     <h3>Cães</h3>
                 </a>
             </div>
             <div class="categoria-button">
-                <a href="./categoriaGatos.html">
+                <a href="./categoriaGatos.php">
                     <div class="categoria-button-img-back"></div>
                     <img src="./IMG/gatos-button-img.png">
                     <h3>Gatos</h3>
                 </a>
             </div>
             <div class="categoria-button">
-                <a href="./categoriaAves.html">
+                <a href="./categoriaAves.php">
                     <div class="categoria-button-img-back"></div>
                     <img src="./IMG/aves-button-img.png">
                     <h3>Aves</h3>
                 </a>
             </div>
             <div class="categoria-button">
-                <a href="./categoriaPeixes.html">
+                <a href="./categoriaPeixes.php">
                     <div class="categoria-button-img-back"></div>
                     <img src="./IMG/peixes-button-img.png">
                     <h3>Peixes</h3>
                 </a>
             </div>
             <div class="categoria-button">
-                <a href="./categoriaRoedores.html">
+                <a href="./categoriaRoedores.php">
                     <div class="categoria-button-img-back"></div>
                     <img src="./IMG/roedores-button-img.png">
                     <h3>Roedores</h3>
@@ -125,7 +146,7 @@ include_once("config.php");
             </div>
 
             <div class="card-home">
-                <a href="./alimentador.html">
+                <a href="./alimentador.php">
                     <img src="./IMG/card-home-2.png">
                 </a>
             </div>

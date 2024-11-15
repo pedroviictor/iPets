@@ -1,21 +1,65 @@
 <?php
-    include 'config.php';
 
-    if (isset($_GET['store_id'])) {
-        $store_id = intval($_GET['store_id']);
+session_start();
 
-        $sql = "SELECT * FROM store WHERE store_id = $store_id";
-        $result = $connection->query($sql);
+include_once('config.php');
 
-        if ($result->num_rows > 0) {
-            $store_data = $result->fetch_assoc();
 
-        } else {
-            echo "Loja não encontrada.";
-        }
-    } else {
-        echo "Loja não encontrada.";
+$grand_total = 0;
+
+if (isset($_SESSION['user_data'])) {
+    $user_id = $_SESSION['user_data']['id'];
+
+    $sql = "SELECT total FROM cart WHERE user_id = $user_id LIMIT 1";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $grand_total = $row['total'];
     }
+}
+
+if (!isset($_SESSION['user_data']['id'])) {
+    header("Location: loginusuario.php");
+    exit();
+}
+
+$user_data = $_SESSION['user_data'];
+
+if (isset($_GET['store_id'])) {
+    $store_id = intval($_GET['store_id']);
+
+    $sql = "SELECT * FROM store WHERE store_id = $store_id";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        $store_data = $result->fetch_assoc();
+    } else {
+        header("Location: paginaErro.html");
+        exit();
+    }
+} else {
+    header("Location: paginaErro.html");
+    exit();
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    $product_id = intval($_POST['product_id']);
+    $user_id = $user_data['id'];
+
+    $check_cart = "SELECT * FROM cart WHERE user_id = $user_id AND store_id = $store_id AND product_id = $product_id";
+    $result = $connection->query($check_cart);
+
+    if ($result->num_rows > 0) {
+
+        $update_cart = "UPDATE cart SET quantity = quantity + 1 WHERE user_id = $user_id AND  store_id = $store_id AND product_id = $product_id";
+        $connection->query($update_cart);
+    } else {
+
+        $insert_cart = "INSERT INTO cart (user_id, store_id, product_id, quantity) VALUES ($user_id, $store_id, $product_id, 1)";
+        $connection->query($insert_cart);
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -33,14 +77,14 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-        <title>iPets | <?php echo $store_data['store_name']; ?></title>
-        </head>
+    <title>iPets | <?php echo $store_data['store_name']; ?></title>
+</head>
 
 <body>
 
     <nav class="navbar">
 
-        <a href="./index.html">
+        <a href="./index.php">
             <img src="./IMG/ipets-logo.png" class="navbar-logo">
         </a>
 
@@ -50,24 +94,40 @@
                 <img src="./IMG/pesquisa-icon.png">
             </div>
         </div>
-        <a href="./cadselect.php" class="navbar-perfil">
-            <div class="navbar-perfil-img">
-                <img src="./IMG/perfil-icon.png">
-            </div>
-            <p>Entre ou cadastre-se</p>
-        </a>
-        <a class="navbar-veterinario" href="./veterinario.html">
+        <?php if (isset($_SESSION['user_data'])): ?>
+            <a href="./perfilusuario.php" class="navbar-perfil">
+                <div class="navbar-perfil-img">
+                    <img src="./IMG/perfil-icon.png">
+                </div>
+                <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+            </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
+            </a>
+        <?php else: ?>
+            <a href="cadselect.php" class="navbar-perfil">
+                <div class="navbar-perfil-img">
+                    <img src="./IMG/perfil-icon.png">
+                </div>
+                <p>Entre ou cadastre-se</p>
+            </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ 0,00</p>
+            </a>
+        <?php endif; ?>
+        <a class="navbar-veterinario" href="./veterinario.php">
             <img src="./IMG/vet-icon.png">
         </a>
         <a class="navbar-localiza">
             <img src="./IMG/localizacao-icon.png">
         </a>
-        <a class="navbar-carrinho" href="./carrinho1.html">
-            <div>
-                <img src="./IMG/carrinho-icon.png">
-            </div>
-            <p>R$ 0,00</p>
-        </a>
+
     </nav>
 
     <button onclick="window.history.back();" class="button-back">&#60;</button>
@@ -77,8 +137,8 @@
         <div class="loja-header">
             <div class="loja-header-info-basic">
                 <div class="loja-nome-container">
-                <h2><?php echo $store_data['store_name']; ?></h2>
-                <img class="verificado" src="./IMG/verificadoIcon.png">
+                    <h2><?php echo $store_data['store_name']; ?></h2>
+                    <img class="verificado" src="./IMG/verificadoIcon.png">
                 </div>
 
                 <br>
@@ -115,14 +175,15 @@
                 <div class="produtos-container">
                     <div class="produtos-divisao">
                         <?php
-                            $sql = "SELECT * FROM products WHERE store_id = $store_id ORDER BY product_name ASC";
-                            $result = $connection->query($sql);
+                        $sql = "SELECT * FROM products WHERE store_id = $store_id ORDER BY product_name ASC";
+                        $result = $connection->query($sql);
 
-                            if ($result->num_rows > 0) {
-                                while ($product_data = mysqli_fetch_assoc($result)) {
-                                    echo "
-                                        <div class='produto'>
-                                            <a href='./calendario.html'>
+                        if ($result->num_rows > 0) {
+                            while ($product_data = mysqli_fetch_assoc($result)) {
+                                echo "
+                                    <div class='produto'>
+                                        <form method='POST'>
+                                            <button type='submit' name='add_to_cart' class='add-to-cart' onclick=\"return confirm('Tem certeza que deseja comprar este produto?');\">
                                                 <div class='produto-info'>
                                                     <h5 class='nome-produto'>" . $product_data['product_name'] . "</h5>
                                                     <p class='descricao-produto'>" . $product_data['product_description'] . "</p>
@@ -131,12 +192,14 @@
                                                 <div class='produto-img-container'>
                                                     <img class='produto-img' src='./IMG/servicoIcon.png'>
                                                 </div>
-                                            </a>
-                                        </div>";
-                                }
-                            } else {
-                                echo "<p>Sem produtos disponíveis nesta loja.</p>";
+                                            </button>
+                                            <input type='hidden' name='product_id' value='" . $product_data['product_id'] . "'>
+                                        </form>
+                                    </div>";
                             }
+                        } else {
+                            echo "<p>Sem produtos disponíveis nesta loja.</p>";
+                        }
                         ?>
                     </div>
                 </div>
@@ -146,15 +209,16 @@
             <div class="content-container" id="servicos-content" style="display: none;">
                 <div class="produtos-container">
                     <div class="produtos-divisao">
-                        <?php
-                            $sql = "SELECT * FROM services WHERE store_id = $store_id ORDER BY services_name ASC";
-                            $result = $connection->query($sql);
 
-                            if ($result->num_rows > 0) {
-                                while ($services_data = mysqli_fetch_assoc($result)) {
-                                    echo "
+                        <?php
+                        $sql = "SELECT * FROM services WHERE store_id = $store_id ORDER BY services_name ASC";
+                        $result = $connection->query($sql);
+
+                        if ($result->num_rows > 0) {
+                            while ($services_data = mysqli_fetch_assoc($result)) {
+                                echo "
                                         <div class='produto'>
-                                            <a href='./calendario.php?services_id=" . $services_data['services_id'] . "'>
+                                            <button href='./calendario.php?services_id=" . $services_data['services_id'] . "'>
                                                 <div class='produto-info'>
                                                     <h5 class='nome-produto'>" . $services_data['services_name'] . "</h5>
                                                     <p class='descricao-produto'>" . $services_data['services_description'] . "</p>
@@ -163,12 +227,12 @@
                                                 <div class='produto-img-container'>
                                                     <img class='produto-img' src='./IMG/servicoIcon.png'>
                                                 </div>
-                                            </a>
+                                            </button>
                                         </div>";
-                                }
-                            } else {
-                                echo "<p>Sem serviços disponíveis nesta loja.</p>";
                             }
+                        } else {
+                            echo "<p>Sem serviços disponíveis nesta loja.</p>";
+                        }
                         ?>
                     </div>
                 </div>

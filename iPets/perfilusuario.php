@@ -1,5 +1,23 @@
 <?php
+
 session_start();
+
+include_once('config.php');
+
+
+$grand_total = 0;
+
+if (isset($_SESSION['user_data'])) {
+    $user_id = $_SESSION['user_data']['id'];
+
+    $sql = "SELECT total FROM cart WHERE user_id = $user_id LIMIT 1";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $grand_total = $row['total'];
+    }
+}
 
 if (!isset($_SESSION['user_data'])) {
     header("Location: loginusuario.php");
@@ -7,6 +25,7 @@ if (!isset($_SESSION['user_data'])) {
 }
 
 $user_data = $_SESSION['user_data'];
+
 ?>
 
 <!DOCTYPE html>
@@ -42,31 +61,31 @@ $user_data = $_SESSION['user_data'];
             </div>
         </div>
         <?php if (isset($_SESSION['user_data'])): ?>
-                <a href="./perfilusuario.php" class="navbar-perfil">
-                    <div class="navbar-perfil-img">
-                        <img src="./IMG/perfil-icon.png">
-                    </div>
-                    <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
-                </a>
-            <?php else: ?>
-                <a href="cadselect.php" class="navbar-perfil">
-                    <div class="navbar-perfil-img">
-                        <img src="./IMG/perfil-icon.png">
-                    </div>
-                    <p>Entre ou cadastre-se</p>
-                </a>
-            <?php endif; ?>
-        <a class="navbar-veterinario" href="./veterinario.html">
+            <a href="./perfilusuario.php" class="navbar-perfil">
+                <div class="navbar-perfil-img">
+                    <img src="./IMG/perfil-icon.png">
+                </div>
+                <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+            </a>
+        <?php else: ?>
+            <a href="cadselect.php" class="navbar-perfil">
+                <div class="navbar-perfil-img">
+                    <img src="./IMG/perfil-icon.png">
+                </div>
+                <p>Entre ou cadastre-se</p>
+            </a>
+        <?php endif; ?>
+        <a class="navbar-veterinario" href="./veterinario.php">
             <img src="./IMG/vet-icon.png">
         </a>
         <a class="navbar-localiza">
             <img src="./IMG/localizacao-icon.png">
         </a>
-        <a class="navbar-carrinho" href="./carrinho1.html">
+        <a class="navbar-carrinho" href="./carrinho1.php">
             <div>
                 <img src="./IMG/carrinho-icon.png">
             </div>
-            <p>R$ 0,00</p>
+            <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
         </a>
     </nav>
 
@@ -98,11 +117,11 @@ $user_data = $_SESSION['user_data'];
 
             <div class="perfil-info">
                 <h3>CPF:</h3>
-                <p id="cpf"><?php echo htmlspecialchars($user_data['cpf']); ?></p>
+                <p id="cpf2"><?php echo htmlspecialchars($user_data['cpf']); ?></p>
             </div>
             <hr class="sublinhado">
 
-    <br>
+            <br>
 
             <div class="perfil-info">
                 <a href="./logoutusuario.php" class="logout">Sair</a>
@@ -156,6 +175,7 @@ $user_data = $_SESSION['user_data'];
 
     <script>
         $('#cpf').mask('000.000.000-00');
+        $('#cpf2').mask('00*.***.***-00');
         $('#telefone').mask('(00) 00000-0000');
     </script>
 </body>

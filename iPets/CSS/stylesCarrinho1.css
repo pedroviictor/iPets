@@ -15,6 +15,14 @@ main h3{
     font-size: 20px;
 }
 
+.mais {
+
+}
+
+.menos{
+    
+}
+
 .car-loja img{
     border-radius: 50%;
     width: 75px;
@@ -64,10 +72,20 @@ main h3{
     height: 50px;
 }
 
-.prod-quant h5{
+.prod-quant .mais{
     color: #D86000;
     cursor: pointer;
     font-size: 25px;
+    background-color: transparent;
+    border: none;
+}
+
+.prod-quant .menos{
+    color: #D86000;
+    cursor: pointer;
+    font-size: 25px;
+    background-color: transparent;
+    border: none;
 }
 
 .prod-quant p{

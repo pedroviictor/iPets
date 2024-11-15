@@ -1,3 +1,26 @@
+<?php
+
+session_start();
+
+include_once('config.php');
+
+
+$grand_total = 0;
+
+if (isset($_SESSION['user_data'])) {
+    $user_id = $_SESSION['user_data']['id'];
+
+    $sql = "SELECT total FROM cart WHERE user_id = $user_id LIMIT 1";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $grand_total = $row['total'];
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 

@@ -1,0 +1,32 @@
+body{
+    font-family: 'Kanit', sans-serif;
+    overflow: hidden;
+}
+
+.container{
+    gap: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+h1 {
+    font-size: 250px;
+    color: #d86000;
+    margin: 0;
+    margin-bottom: -70px;
+}
+
+img {
+    width: auto;
+    height: 350px;
+}
+
+h3, p{
+    color: #012686;
+}
+
+a{
+    color: #d86000;
+}

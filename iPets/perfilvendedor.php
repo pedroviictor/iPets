@@ -253,7 +253,24 @@ if (isset($_GET['success'])) {
                                     placeholder="* Preço do produto" required />
                                 <input type="text" name="stock_quantity" placeholder="* Quantidade de produtos."
                                     required />
-                                <button type="submit" class="popup-btn">Adicionar</button>
+                                    <div class="radios">
+                                    <label>Categoria do produto:</label><br>
+                                    <input type="radio" id="cachorros" name="product_category" value="1" required>
+                                    <label for="cachorros">Cachorros</label><br>
+                                    
+                                    <input type="radio" id="gatos" name="product_category" value="2" required>
+                                    <label for="gatos">Gatos</label><br>
+                                    
+                                    <input type="radio" id="aves" name="product_category" value="3" required>
+                                    <label for="aves">Aves</label><br>
+                                    
+                                    <input type="radio" id="peixes" name="product_category" value="4" required>
+                                    <label for="peixes">Peixes</label><br>
+                                    
+                                    <input type="radio" id="roedores" name="product_category" value="5" required>
+                                    <label for="roedores">Roedores</label><br>
+                                    </div>
+                                    <button type="submit" class="popup-btn">Adicionar</button>
                             </form>
                         </div>
 
@@ -360,19 +377,11 @@ if (isset($_GET['success'])) {
             document.body.classList.toggle("popup-true");
         });
 
-        document.querySelectorAll("button")[4].addEventListener("click", function () {
-            document.body.classList.toggle("popup-true");
-        });
-
         document.querySelectorAll("button")[5].addEventListener("click", function () {
             document.body.classList.toggle("popup-true");
         });
 
-        document.querySelectorAll("button")[8].addEventListener("click", function () {
-            document.body.classList.toggle("popup-true");
-        });
-
-        document.querySelectorAll("button")[9].addEventListener("click", function () {
+        document.querySelectorAll("button")[6].addEventListener("click", function () {
             document.body.classList.toggle("popup-true");
         });
     </script>

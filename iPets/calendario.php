@@ -1,21 +1,40 @@
 <?php
-    include 'config.php';
 
-    if (isset($_GET['services_id'])) {
-        $services_id = intval($_GET['services_id']);
+session_start();
 
-        $sql = "SELECT * FROM services WHERE services_id = $services_id";
-        $result = $connection->query($sql);
+include_once('config.php');
 
-        if ($result->num_rows > 0) {
-            $services_data = $result->fetch_assoc();
 
-        } else {
-            echo "Serviço não encontrado.";
-        }
-    } else {
-        echo "Serviço não encontrado.";
-    }
+$grand_total = 0;
+
+if (isset($_SESSION['user_data'])) {
+  $user_id = $_SESSION['user_data']['id'];
+
+  $sql = "SELECT total FROM cart WHERE user_id = $user_id LIMIT 1";
+  $result = $connection->query($sql);
+
+  if ($result->num_rows > 0) {
+    $row = $result->fetch_assoc();
+    $grand_total = $row['total'];
+  }
+}
+
+if (isset($_GET['services_id'])) {
+  $services_id = intval($_GET['services_id']);
+
+  $sql = "SELECT * FROM services WHERE services_id = $services_id";
+  $result = $connection->query($sql);
+
+  if ($result->num_rows > 0) {
+    $services_data = $result->fetch_assoc();
+
+  } else {
+    echo "Serviço não encontrado.";
+  }
+} else {
+  echo "Serviço não encontrado.";
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -40,7 +59,7 @@
 
   <nav class="navbar">
 
-    <a href="./index.html">
+    <a href="./index.php">
       <img src="./IMG/ipets-logo.png" class="navbar-logo">
     </a>
 
@@ -50,24 +69,40 @@
         <img src="./IMG/pesquisa-icon.png">
       </div>
     </div>
-    <a href="./cadselect.php" class="navbar-perfil">
-      <div class="navbar-perfil-img">
-        <img src="./IMG/perfil-icon.png">
-      </div>
-      <p>Entre ou cadastre-se</p>
-    </a>
-    <a class="navbar-veterinario" href="./veterinario.html">
+    <?php if (isset($_SESSION['user_data'])): ?>
+      <a href="./perfilusuario.php" class="navbar-perfil">
+        <div class="navbar-perfil-img">
+          <img src="./IMG/perfil-icon.png">
+        </div>
+        <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+      </a>
+      <a class="navbar-carrinho" href="./carrinho1.php">
+        <div>
+          <img src="./IMG/carrinho-icon.png">
+        </div>
+        <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
+      </a>
+    <?php else: ?>
+      <a href="cadselect.php" class="navbar-perfil">
+        <div class="navbar-perfil-img">
+          <img src="./IMG/perfil-icon.png">
+        </div>
+        <p>Entre ou cadastre-se</p>
+      </a>
+      <a class="navbar-carrinho" href="./carrinho1.php">
+        <div>
+          <img src="./IMG/carrinho-icon.png">
+        </div>
+        <p>R$ 0,00</p>
+      </a>
+    <?php endif; ?>
+    <a class="navbar-veterinario" href="./veterinario.php">
       <img src="./IMG/vet-icon.png">
     </a>
     <a class="navbar-localiza">
       <img src="./IMG/localizacao-icon.png">
     </a>
-    <a class="navbar-carrinho" href="./carrinho1.html">
-      <div>
-        <img src="./IMG/carrinho-icon.png">
-      </div>
-      <p>R$ 0,00</p>
-    </a>
+
   </nav>
 
   <main>
@@ -100,7 +135,7 @@
 
     <div class="buttons">
       <a class="back-button" onclick="history.back()">Voltar</a>
-      <a class="next-button" href="./horarios.html">Continuar</a>
+      <a class="next-button" href="./horarios.php">Continuar</a>
     </div>
 
     <br>

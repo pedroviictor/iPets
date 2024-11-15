@@ -1,3 +1,21 @@
+<?php
+
+$grand_total = 0;
+
+if (isset($_SESSION['user_data'])) {
+    $user_id = $_SESSION['user_data']['id'];
+
+    $sql = "SELECT total FROM cart WHERE user_id = $user_id LIMIT 1";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $grand_total = $row['total'];
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -19,7 +37,7 @@
 
     <nav class="navbar">
 
-        <a href="./index.html">
+        <a href="./index.php">
             <img src="./IMG/ipets-logo.png" class="navbar-logo">
         </a>
 
@@ -29,24 +47,40 @@
                 <img src="./IMG/pesquisa-icon.png">
             </div>
         </div>
-        <a href="./cadselect.php" class="navbar-perfil">
-            <div class="navbar-perfil-img">
-                <img src="./IMG/perfil-icon.png">
-            </div>
-            <p>Entre ou cadastre-se</p>
-        </a>
-        <a class="navbar-veterinario" href="./veterinario.html">
+        <?php if (isset($_SESSION['user_data'])): ?>
+            <a href="./perfilusuario.php" class="navbar-perfil">
+                <div class="navbar-perfil-img">
+                    <img src="./IMG/perfil-icon.png">
+                </div>
+                <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+            </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
+            </a>
+        <?php else: ?>
+            <a href="cadselect.php" class="navbar-perfil">
+                <div class="navbar-perfil-img">
+                    <img src="./IMG/perfil-icon.png">
+                </div>
+                <p>Entre ou cadastre-se</p>
+            </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ 0,00</p>
+            </a>
+        <?php endif; ?>
+        <a class="navbar-veterinario" href="./veterinario.php">
             <img src="./IMG/vet-icon.png">
         </a>
         <a class="navbar-localiza">
             <img src="./IMG/localizacao-icon.png">
         </a>
-        <a class="navbar-carrinho" href="./carrinho1.html">
-            <div>
-                <img src="./IMG/carrinho-icon.png">
-            </div>
-            <p>R$ 0,00</p>
-        </a>
+
     </nav>
 
     <header class="header-container">
@@ -217,7 +251,7 @@
         <div class="lojas-container">
 
             <div class="lojas">
-                <a href="./paginaLoja.html" style="text-decoration: none; color: #000;">
+                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
                     <div class="lojas-info-total">
                         <img src="./IMG/pet-shop-store-icon.png">
                         <div class="lojas-info">
@@ -229,7 +263,7 @@
                 </a>
             </div>
             <div class="lojas">
-                <a href="./paginaLoja.html" style="text-decoration: none; color: #000;">
+                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
                     <div class="lojas-info-total">
                         <img src="./IMG/pet-shop-store-icon.png">
                         <div class="lojas-info">
@@ -241,7 +275,7 @@
                 </a>
             </div>
             <div class="lojas">
-                <a href="./paginaLoja.html" style="text-decoration: none; color: #000;">
+                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
                     <div class="lojas-info-total">
                         <img src="./IMG/pet-shop-store-icon.png">
                         <div class="lojas-info">
@@ -253,7 +287,7 @@
                 </a>
             </div>
             <div class="lojas">
-                <a href="./paginaLoja.html" style="text-decoration: none; color: #000;">
+                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
                     <div class="lojas-info-total">
                         <img src="./IMG/pet-shop-store-icon.png">
                         <div class="lojas-info">
@@ -265,7 +299,7 @@
                 </a>
             </div>
             <div class="lojas">
-                <a href="./paginaLoja.html" style="text-decoration: none; color: #000;">
+                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
                     <div class="lojas-info-total">
                         <img src="./IMG/pet-shop-store-icon.png">
                         <div class="lojas-info">
@@ -277,7 +311,7 @@
                 </a>
             </div>
             <div class="lojas">
-                <a href="./paginaLoja.html" style="text-decoration: none; color: #000;">
+                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
                     <div class="lojas-info-total">
                         <img src="./IMG/pet-shop-store-icon.png">
                         <div class="lojas-info">
@@ -289,7 +323,7 @@
                 </a>
             </div>
             <div class="lojas">
-                <a href="./paginaLoja.html" style="text-decoration: none; color: #000;">
+                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
                     <div class="lojas-info-total">
                         <img src="./IMG/pet-shop-store-icon.png">
                         <div class="lojas-info">
@@ -301,7 +335,7 @@
                 </a>
             </div>
             <div class="lojas">
-                <a href="./paginaLoja.html" style="text-decoration: none; color: #000;">
+                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
                     <div class="lojas-info-total">
                         <img src="./IMG/pet-shop-store-icon.png">
                         <div class="lojas-info">
@@ -313,7 +347,7 @@
                 </a>
             </div>
             <div class="lojas">
-                <a href="./paginaLoja.html" style="text-decoration: none; color: #000;">
+                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
                     <div class="lojas-info-total">
                         <img src="./IMG/pet-shop-store-icon.png">
                         <div class="lojas-info">

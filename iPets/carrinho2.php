@@ -20,7 +20,7 @@
 
     <nav class="navbar">
 
-        <a href="./index.html">
+        <a href="./index.php">
             <img src="./IMG/ipets-logo.png" class="navbar-logo">
         </a>
 
@@ -30,23 +30,32 @@
                 <img src="./IMG/pesquisa-icon.png">
             </div>
         </div>
-        <a href="./cadselect.php" class="navbar-perfil">
-            <div class="navbar-perfil-img">
-                <img src="./IMG/perfil-icon.png">
-            </div>
-            <p>Entre ou cadastre-se</p>
-        </a>
-        <a class="navbar-veterinario" href="./veterinario.html">
+        <?php if (isset($_SESSION['user_data'])): ?>
+            <a href="./perfilusuario.php" class="navbar-perfil">
+                <div class="navbar-perfil-img">
+                    <img src="./IMG/perfil-icon.png">
+                </div>
+                <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+            </a>
+        <?php else: ?>
+            <a href="cadselect.php" class="navbar-perfil">
+                <div class="navbar-perfil-img">
+                    <img src="./IMG/perfil-icon.png">
+                </div>
+                <p>Entre ou cadastre-se</p>
+            </a>
+        <?php endif; ?>
+        <a class="navbar-veterinario" href="./veterinario.php">
             <img src="./IMG/vet-icon.png">
         </a>
         <a class="navbar-localiza">
             <img src="./IMG/localizacao-icon.png">
         </a>
-        <a class="navbar-carrinho" href="./carrinho1.html">
+        <a class="navbar-carrinho" href="./carrinho1.php">
             <div>
                 <img src="./IMG/carrinho-icon.png">
             </div>
-            <p>R$ 0,00</p>
+            <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
         </a>
     </nav>
 
@@ -180,7 +189,7 @@
             </div>
             <div class="buttons-popup">
                 <a class="back-button-popup" onclick="history.back()">Voltar</a>
-                <a class="next-button-popup" href="./aguardo.html">Confirmar</a>
+                <a class="next-button-popup" href="./aguardo.php">Confirmar</a>
             </div>
         </div>
     </div>
