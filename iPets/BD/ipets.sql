@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 13-Nov-2024 às 18:08
+-- Generation Time: 15-Nov-2024 às 22:31
 -- Versão do servidor: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -23,27 +23,16 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Estrutura da tabela `carts`
+-- Estrutura da tabela `cart`
 --
 
-CREATE TABLE `carts` (
-  `cart_id` int(11) NOT NULL,
-  `user_id` int(11) DEFAULT NULL,
-  `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
--- --------------------------------------------------------
-
---
--- Estrutura da tabela `cart_items`
---
-
-CREATE TABLE `cart_items` (
-  `cart_item_id` int(11) NOT NULL,
-  `cart_id` int(11) DEFAULT NULL,
-  `product_id` int(11) DEFAULT NULL,
-  `quantity` int(11) DEFAULT NULL,
-  `added_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+CREATE TABLE `cart` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) DEFAULT '1',
+  `total` decimal(10,2) DEFAULT '0.00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -58,7 +47,8 @@ CREATE TABLE `products` (
   `product_name` varchar(100) DEFAULT NULL,
   `product_description` text,
   `product_price` decimal(10,2) DEFAULT NULL,
-  `stock_quantity` int(11) DEFAULT NULL
+  `stock_quantity` int(11) DEFAULT NULL,
+  `product_category` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -106,7 +96,9 @@ CREATE TABLE `store` (
   `store_cidade` varchar(45) NOT NULL,
   `store_estado` varchar(45) NOT NULL,
   `store_end` varchar(45) NOT NULL,
-  `store_senha` varchar(16) NOT NULL
+  `store_senha` varchar(16) NOT NULL,
+  `store_open` time NOT NULL,
+  `store_close` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -129,19 +121,13 @@ CREATE TABLE `user` (
 --
 
 --
--- Indexes for table `carts`
+-- Indexes for table `cart`
 --
-ALTER TABLE `carts`
-  ADD PRIMARY KEY (`cart_id`),
-  ADD KEY `user_id` (`user_id`);
-
---
--- Indexes for table `cart_items`
---
-ALTER TABLE `cart_items`
-  ADD PRIMARY KEY (`cart_item_id`),
-  ADD KEY `cart_id` (`cart_id`),
-  ADD KEY `product_id` (`product_id`);
+ALTER TABLE `cart`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `store_id` (`store_id`);
 
 --
 -- Indexes for table `products`
@@ -182,15 +168,10 @@ ALTER TABLE `user`
 --
 
 --
--- AUTO_INCREMENT for table `carts`
+-- AUTO_INCREMENT for table `cart`
 --
-ALTER TABLE `carts`
-  MODIFY `cart_id` int(11) NOT NULL AUTO_INCREMENT;
---
--- AUTO_INCREMENT for table `cart_items`
---
-ALTER TABLE `cart_items`
-  MODIFY `cart_item_id` int(11) NOT NULL AUTO_INCREMENT;
+ALTER TABLE `cart`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 --
 -- AUTO_INCREMENT for table `products`
 --
@@ -221,17 +202,12 @@ ALTER TABLE `user`
 --
 
 --
--- Limitadores para a tabela `carts`
+-- Limitadores para a tabela `cart`
 --
-ALTER TABLE `carts`
-  ADD CONSTRAINT `carts_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`);
-
---
--- Limitadores para a tabela `cart_items`
---
-ALTER TABLE `cart_items`
-  ADD CONSTRAINT `cart_items_ibfk_1` FOREIGN KEY (`cart_id`) REFERENCES `carts` (`cart_id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `cart_items_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`);
+ALTER TABLE `cart`
+  ADD CONSTRAINT `cart_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `user` (`user_id`),
+  ADD CONSTRAINT `cart_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`),
+  ADD CONSTRAINT `cart_ibfk_3` FOREIGN KEY (`store_id`) REFERENCES `store` (`store_id`);
 
 --
 -- Limitadores para a tabela `products`
