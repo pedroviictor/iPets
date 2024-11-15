@@ -144,12 +144,19 @@ h1{
 .lojas{
     flex: 1 1 25%; 
     box-sizing: border-box;
-    align-items: center;
+    max-width: 30%;
 }
 
 .lojas a{
     font-size: normal;
     color: #000;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.lojas a:hover{
+    scale: 1.1;
+    transition: 0.3s;
 }
 
 .lojas-info-total{

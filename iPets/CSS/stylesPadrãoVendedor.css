@@ -1,5 +1,4 @@
 /* Formatação padrão de todas as páginas do vendedor */
-
 * {
     font-family: "Kanit", sans-serif;
 }
@@ -35,6 +34,7 @@ a{
 .nav-item-img{
     width: auto;
     height: 40px;
+    padding-top: 30px;
 }
 
 .nav-item-tit{

@@ -54,6 +54,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $services_description = isset($_POST['services_description']) ? $_POST['services_description'] : '';
             $services_price = isset($_POST['services_price']) ? $_POST['services_price'] : '';
 
+            $services_prive = preg_replace('/./', '', $services_price);
+
             if (!empty($services_name) && !empty($services_description) && !empty($services_price)) {
 
                 $cmd = $connection->prepare("INSERT INTO services (store_id, services_name, services_description, services_price) VALUES (?, ?, ?, ?)");
@@ -143,6 +145,7 @@ if (isset($_GET['success'])) {
     <link rel="stylesheet" href="./CSS/stylesPadrãoVendedor.css">
     <link rel="stylesheet" href="./CSS/stylesVendedorPerfil.css">
     <script src="./JS/scriptVendedorPerfil.js"></script>
+    <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -154,7 +157,7 @@ if (isset($_GET['success'])) {
 <body>
 
     <nav class="navbar" style="position: fixed;">
-        <a class="nav-item" href="#">
+        <a class="nav-item" href="perfilvendedor.php">
             <img src="./IMG/icon-vendedor-home.png" class="nav-item-img">
             <p class="nav-item-tit">Início</p>
         </a>
@@ -193,10 +196,8 @@ if (isset($_GET['success'])) {
     <main>
         <section class="infos-loja-main-container">
 
-
             <div class="infos-loja-container">
-                <button style="border: none; background-color: transparent; color: #D86000; cursor: pointer;">Editar
-                    informações</button>
+
                 <div class="info-loja">
                     <h3>Segmento</h3>
                     <div class="info">
@@ -210,15 +211,14 @@ if (isset($_GET['success'])) {
                 <div class="info-loja">
                     <h3>Horário</h3>
                     <div class="info">
-                        <p>Pedidos • 08:00 - 19:00</p>
+                        <p class="hour">Abre às <?php echo htmlspecialchars($store_data['open']); ?> </p>
+                        <p class="hour">Fecha às <?php echo htmlspecialchars($store_data['close']); ?> </p>
                     </div>
 
-                    <div class="info">
-                        <p>Serviços • 09:00 - 18:00</p>
-                    </div>
                 </div>
 
-                <div class="loja-foto">
+                
+                <div style="margin-left: 300px;" class="loja-foto">
                     <img src="./IMG/pet-shop-store-icon.png">
                 </div>
             </div>
@@ -241,8 +241,7 @@ if (isset($_GET['success'])) {
                     <div class="produtos-divisao">
                         <br><br>
                         <button
-                            style="border: none; background-color: transparent; color: #D86000; cursor: pointer;">Adicionar
-                            produtos</button>
+                            style="border: none; background-color: transparent; color: #D86000; cursor: pointer;">Adicionar produtos</button>
                         <div class="popup">
                             <form method="POST" class="popup-container">
                                 <button type="button" class="popup-btn popup-btn--close">X</button>
@@ -250,7 +249,7 @@ if (isset($_GET['success'])) {
                                 <input type="text" name="product_name" placeholder="* Nome do produto." required />
                                 <input type="text" name="product_description" placeholder="* Descrição do produto."
                                     required />
-                                <input id="preco" type="text" name="product_price" step="0.01" min="0" max="999999.99"
+                                <input class="preco" type="text" name="product_price" step="0.01" min="0" max="999999.99"
                                     placeholder="* Preço do produto" required />
                                 <input type="text" name="stock_quantity" placeholder="* Quantidade de produtos."
                                     required />
@@ -263,8 +262,10 @@ if (isset($_GET['success'])) {
                         </div>
 
                         <?php
+                        
+                        $store_id = $_SESSION['store_data']['id'];
 
-                        $sql = "SELECT * FROM products ORDER BY product_name ASC";
+                        $sql = "SELECT * FROM products WHERE store_id = '$store_id' ORDER BY product_name ASC";
                         $result = $connection->query($sql);
 
                         while ($products_data = mysqli_fetch_assoc($result)) {
@@ -293,9 +294,7 @@ if (isset($_GET['success'])) {
                 <div class="produtos-container">
                     <div class="produtos-divisao">
                         <br><br>
-                        <button
-                            style="border: none; background-color: transparent; color: #D86000; cursor: pointer;">Adicionar
-                            serviços</button>
+                        <button style="border: none; background-color: transparent; color: #D86000; cursor: pointer;">Adicionar serviços</button>
                         <div class="popup">
                             <form method="POST" action="" class="popup-container">
                                 <button type="button" class="popup-btn popup-btn--close">X</button>
@@ -303,7 +302,7 @@ if (isset($_GET['success'])) {
                                 <input type="text" name="services_name" placeholder="* Nome do serviço." required />
                                 <input type="text" name="services_description" placeholder="* Descrição do serviço."
                                     required />
-                                <input id="preco" type="text" name="services_price" step="0.01" min="0" max="999999.99"
+                                <input class="preco" type="text" name="services_price" step="0.01" min="0" max="999999.99"
                                     placeholder="* Preço do serviço" required />
                                 <button type="submit" class="popup-btn">Adicionar</button>
                             </form>
@@ -314,7 +313,9 @@ if (isset($_GET['success'])) {
 
                         <?php
 
-                        $sql = "SELECT * FROM services ORDER BY services_name ASC";
+                        $store_id = $_SESSION['store_data']['id'];
+
+                        $sql = "SELECT * FROM services WHERE store_id = '$store_id' ORDER BY services_name ASC";
                         $result = $connection->query($sql);
 
                         while ($services_data = mysqli_fetch_assoc($result)) {
@@ -346,11 +347,16 @@ if (isset($_GET['success'])) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <script>
-        document.querySelectorAll("button")[1].addEventListener("click", function () {
+
+        $('.preco').mask("###0.00", { reverse: true });
+        $('.hour').mask("00:00h");
+
+
+        document.querySelectorAll("button")[0].addEventListener("click", function () {
             document.body.classList.toggle("popup-true");
         });
 
-        document.querySelectorAll("button")[2].addEventListener("click", function () {
+        document.querySelectorAll("button")[1].addEventListener("click", function () {
             document.body.classList.toggle("popup-true");
         });
 
@@ -362,9 +368,14 @@ if (isset($_GET['success'])) {
             document.body.classList.toggle("popup-true");
         });
 
-        $('#preco').mask("#.##0,00", { reverse: true });
-    </script>
+        document.querySelectorAll("button")[8].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
 
+        document.querySelectorAll("button")[9].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+    </script>
 
 </body>
 

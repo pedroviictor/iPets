@@ -6,12 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./CSS/stylesCategoria.css">
     <link rel="stylesheet" href="./CSS/stylesPadrão.css">
+    <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-    <title>Cães</title>
+    <title>Roedores</title>
 </head>
 
 <body>
@@ -47,13 +48,23 @@
             <p>R$ 0,00</p>
         </a>
     </nav>
-    
+
     <header class="header-container">
-        <a class="selected" href="./categoriaCaes.html"><h2>Cães</h2></a>
-        <a href="./categoriaGatos.html"><h2>Gatos</h2></a>
-        <a href="./categoriaAves.html"><h2>Aves</h2></a>
-        <a href="./categoriaRoedores.html"><h2>Roedores</h2></a>
-        <a href="./categoriaPeixes.html"><h2>Peixes</h2></a>
+        <a href="./categoriaCaes.php">
+            <h2>Cães</h2>
+        </a>
+        <a href="./categoriaGatos.php">
+            <h2>Gatos</h2>
+        </a>
+        <a href="./categoriaAves.php">
+            <h2>Aves</h2>
+        </a>
+        <a class="selected" href="./categoriaRoedores.php">
+            <h2>Roedores</h2>
+        </a>
+        <a href="./categoriaPeixes.html">
+            <h2>Peixes</h2>
+        </a>
     </header>
     <hr>
 
@@ -156,57 +167,11 @@
             </div>
         </div>
 
-        <div class="filtros">
-            <div class="filtro">
-                <div class="dropdown-container">
-                    <button class="dropdown-button">
-                        Ordenar por<span class="dropdown-seta"></span>
-                    </button>
-                    <div class="dropdown-content">
-                        <label class="radio-container">
-                            <input type="radio" name="ordenar" />
-                            <span class="radio-box"></span>
-                            <p class="radio-text">Lorem Ipsum</p>
-                        </label>
-                        <label class="radio-container">
-                            <input type="radio" name="ordenar" />
-                            <span class="radio-box"></span>
-                            <p class="radio-text">Lorem Ipsum</p>
-                        </label>
-                        <label class="radio-container">
-                            <input type="radio" name="ordenar" />
-                            <span class="radio-box"></span>
-                            <p class="radio-text">Lorem Ipsum</p>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="filtro">
-                <label class="checkbox-container">
-                    <input type="checkbox" />
-                    <p class="checkbox-text">Entrega Grátis</p>
-                </label>
-            </div>
 
-            <div class="filtro">
-                <label class="checkbox-container">
-                    <input type="checkbox" />
-                    <p class="checkbox-text">Serviços</p>
-                </label>
-            </div>
-
-            <div class="filtro">
-                <label class="checkbox-container">
-                    <input type="checkbox" />
-                    <p class="checkbox-text">Remédios</p>
-                </label>
-            </div>
-        </div>
-        
         <div class="lojas-container">
-            
+
             <div class="lojas">
-                <a href="./paginaLoja.html" style="text-decoration: none; color: #000;">
+                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
                     <div class="lojas-info-total">
                         <img src="./IMG/pet-shop-store-icon.png">
                         <div class="lojas-info">

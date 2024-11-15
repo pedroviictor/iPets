@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./CSS/styleselect.css">
+    <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <title>Seleção de Perfil | iPets</title>
 </head>
 <body style="background-color:#00154B">

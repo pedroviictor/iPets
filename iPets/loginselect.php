@@ -1,32 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./CSS/styleselect.css">
+    <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <title>Seleção de Perfil | iPets</title>
 </head>
-<body>
-    <body style="background-color:#00154B">
-    <div>
-        <h1>Bem-vindo!</h1>
-        <p> Qual tipo de conta gostaria de entrar?</p>
-        <br> <br>
 
-        <div class="img">
-             
-                    <a href="loginusuario.php">
+<body>
+
+    <body style="background-color:#00154B">
+        <div>
+            <h1>Bem-vindo!</h1>
+            <p> Qual tipo de conta gostaria de entrar?</p>
+            <br> <br>
+
+            <div class="img">
+
+                <a href="loginusuario.php">
                     <img src="img/cliente 1.png">
                 </a>
-                    
-                    <a href="loginvendedor.php">
+
+                <a href="loginvendedor.php">
                     <img src="img/loja.png">
                 </a>
-                  
-        </div>
 
-        <br> <br>
-        <a href="login.php">Não possui uma conta? Clique aqui</a>
+            </div>
+            <br><br>
+            <a href="cadselect.php">Não possui uma conta? Clique aqui</a>
+    </body>
 
-</body>
 </html>

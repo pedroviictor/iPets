@@ -43,7 +43,7 @@ h1{
     color: white;
 }
 #submit{
-    background-color: #00154B;
+    background-color: #d1911a;
     width: 100%;
     border: none;
     padding: 15px;
@@ -51,7 +51,10 @@ h1{
     font-size: 15px;
     cursor: pointer;
     border-radius: 20px;
+    transition: 0.3s;
 }
+
 #submit:hover{
-    background-color: #284eb1;
+    background-color: #b17b19;
+    transition: 0.3s;
 }

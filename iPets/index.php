@@ -14,6 +14,7 @@ include_once("config.php");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./CSS/stylesHome.css">
     <link rel="stylesheet" href="./CSS/stylesPadrão.css">
+    <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -133,46 +134,34 @@ include_once("config.php");
         <div class="lojas-home-container">
             <div class="lojas-home-tit">
                 <h1>Você pode gostar</h1>
-                <a href="./lojas.html">Ver mais</a>
+                <a href="./lojas.php">Ver mais</a>
             </div>
 
             <div class="lojas-container">
-                <div class="lojas">
-                    <a href="./paginaLoja.html">
-                        <div class="lojas-info-total">
-                            <img src="./IMG/pet-shop-store-icon.png">
-                            <div class="lojas-info">
-                                <h4>Pet Shop Store</h4>
-                                <p>Cães e Gatos - 1,2 km</p>
-                                <p>Aberto até 19:00 - Serviços até 18:00</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="lojas">
-                    <a href="./paginaLoja.html">
-                        <div class="lojas-info-total">
-                            <img src="./IMG/pet-shop-store-icon.png">
-                            <div class="lojas-info">
-                                <h4>Pet Shop Store</h4>
-                                <p>Cães e Gatos - 1,2 km</p>
-                                <p>Aberto até 19:00 - Serviços até 18:00</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
-                <div class="lojas">
-                    <a href="./paginaLoja.html">
-                        <div class="lojas-info-total">
-                            <img src="./IMG/pet-shop-store-icon.png">
-                            <div class="lojas-info">
-                                <h4>Pet Shop Store</h4>
-                                <p>Cães e Gatos - 1,2 km</p>
-                                <p>Aberto até 19:00 - Serviços até 18:00</p>
-                            </div>
-                        </div>
-                    </a>
-                </div>
+
+                <!-- só 3 lojas aleatórias são exibidas -->
+
+                <?php
+                $sql = "SELECT * FROM store ORDER BY RAND() LIMIT 3";
+                $result = $connection->query($sql);
+
+                while ($store_data = mysqli_fetch_assoc($result)) {
+                    echo "
+                        <div class='lojas'>
+                            <a href='./paginaLoja.php?store_id=" . $store_data['store_id'] . "'>
+                                <div class='lojas-info-total'>
+                                    <input type='hidden' name='product_id' value='" . $store_data['store_id'] . "'>
+                                    <img src='./IMG/pet-shop-store-icon.png'>
+                                    <div class='lojas-info'>
+                                        <h4>" . $store_data['store_name'] . "</h4>
+                                        <p>Cães e Gatos - 1,2 km</p>
+                                        <p>Aberto até 19:00 - Serviços até 18:00</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>";
+                }
+                ?>
             </div>
         </div>
 

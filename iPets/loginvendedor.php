@@ -33,6 +33,8 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
                 'cidade' => $store_data['store_cidade'],
                 'estado' => $store_data['store_estado'],
                 'endereco' => $store_data['store_end'],
+                'open' => $store_data['store_open'],
+                'close' => $store_data['store_close']
             ];
             header("Location: perfilvendedor.php");
             exit();
@@ -52,6 +54,7 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./CSS/stylelog.css">
+    <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <title>Login | iPets</title>
 </head>
 
@@ -65,7 +68,7 @@ if (isset($_POST['email']) && isset($_POST['senha'])) {
             <br><br>
             <button type="submit">Entrar</button>
             <br><br>
-            <a href="cadselect.php">Não possui conta? Crie aqui</a>
+            <a href="cadvendedor.php">Não possui conta? Crie aqui</a>
         </form>
     </div>
 </body>

@@ -18,6 +18,7 @@ $user_data = $_SESSION['user_data'];
     <link rel="stylesheet" href="./CSS/stylesPadrão.css">
     <link rel="stylesheet" href="./CSS/stylesPerfil.css">
     <script src="./JS/scriptLoja.js"></script>
+    <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link

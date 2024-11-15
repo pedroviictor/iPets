@@ -1,3 +1,23 @@
+<?php
+    include 'config.php';
+
+    if (isset($_GET['services_id'])) {
+        $services_id = intval($_GET['services_id']);
+
+        $sql = "SELECT * FROM services WHERE services_id = $services_id";
+        $result = $connection->query($sql);
+
+        if ($result->num_rows > 0) {
+            $services_data = $result->fetch_assoc();
+
+        } else {
+            echo "Serviço não encontrado.";
+        }
+    } else {
+        echo "Serviço não encontrado.";
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -6,6 +26,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./CSS/stylesCalendarioHorarios.css">
   <link rel="stylesheet" href="./CSS/stylesPadrão.css">
+  <link rel="icon" href="./IMG/favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link

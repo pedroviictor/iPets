@@ -49,16 +49,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $store_estado = isset($_POST['estado']) ? $_POST['estado'] : '';
     $store_end = isset($_POST['endereco']) ? $_POST['endereco'] : '';
     $store_senha = isset($_POST['senha']) ? $_POST['senha'] : '';
+    $store_open = isset($_POST['store_open']) ? $_POST['store_open'] : '';
+    $store_close = isset($_POST['store_close']) ? $_POST['store_close'] : '';
 
     // apagar caracteres especiais do cnpj e telefone
     $store_cnpj = preg_replace('/[^0-9]/', '', $store_cnpj);
     $store_tel = preg_replace('/\D/', '', $store_tel);
+    $store_open = preg_replace('/:/', '', $store_open);
+    $store_close = preg_replace('/:/', '', $store_close);
 
 
     if (
         !empty($store_name) && !empty($store_email) && !empty($store_tel) &&
         !empty($store_cnpj) && !empty($store_cidade) && !empty($store_estado) &&
-        !empty($store_end) && !empty($store_senha)
+        !empty($store_end) && !empty($store_senha) && !empty($store_open) && !empty($store_close)
     ) {
 
         if (!validar_cnpj($store_cnpj)) {
@@ -69,8 +73,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         }
 
-        $cmd = $connection->prepare("INSERT INTO store (store_name, store_email, store_tel, store_cnpj, store_cidade, store_estado, store_end, store_senha) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
-        $cmd->bind_param("ssssssss", $store_name, $store_email, $store_tel, $store_cnpj, $store_cidade, $store_estado, $store_end, $store_senha);
+        $cmd = $connection->prepare("INSERT INTO store (store_name, store_email, store_tel, store_cnpj, store_cidade, store_estado, store_end, store_senha, store_open, store_close) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+        $cmd->bind_param("ssssssssss", $store_name, $store_email, $store_tel, $store_cnpj, $store_cidade, $store_estado, $store_end, $store_senha, $store_open, $store_close);
 
         if ($cmd->execute()) {
             echo "<script>
@@ -101,6 +105,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <link rel="stylesheet" href="./CSS/stylecadvend.css">
     <script src="./JS/scripCadvendedor.js"></script>
     <title>Cadastro | iPets</title>
@@ -151,6 +156,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <label for="senha" class="labelInput">Senha</label>
             </div>
             <br><br>
+            <div class="inputBox">
+                <input type="text" name="store_open" id="time1" class="inputUser" required>
+                <label for="store_open" class="labelInput">Início de expediente</label>
+            </div>
+            <br><br>
+            <div class="inputBox">
+                <input type="text" name="store_close" id="time2" class="inputUser" required>
+                <label for="store_close" class="labelInput">Fim de expediente</label>
+            </div>
+            <br><br>
             <input type="submit" name="submit" id="submit">
         </form>
     </div>
@@ -162,6 +177,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
 
     <script>
+        $('#time1').mask('00:00:00');
+        $('#time2').mask('00:00:00');
         $('#cnpj').mask('00.000.000/0000-00');
         $('#telefone').mask('(00) 00000-0000');
     </script>

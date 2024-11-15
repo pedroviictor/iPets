@@ -40,10 +40,6 @@ main a{
 }
 
 .info{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
     margin-top: -30px;
 }
 
@@ -123,7 +119,6 @@ main a{
     padding-left: 5px;
     padding-right: 5px;
     align-items: center;
-    cursor: pointer;
     transition: transform 0.3s ease;
     border-bottom: 1px solid #D9D9D9;
     text-decoration: none; 
@@ -162,6 +157,17 @@ main a{
     border-radius: 10px;
 }
 
+.infos-loja-main-container {
+    height: 20vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.info-loja {
+    margin: 50px;
+}
+
 .form-container {
     display: none;
     position: fixed;
@@ -173,6 +179,16 @@ main a{
     border: 1px solid #ccc;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     z-index: 10;
+}
+
+.edit-btn {
+    height: 5px; 
+    inset: 0;
+
+    border: none; 
+    background-color: transparent; 
+    color: #D86000; 
+    cursor: pointer;
 }
 
 .overlay {
@@ -206,18 +222,18 @@ main a{
     display: flex;
     flex-direction: column;
     gap: 10px;
-    background-color: #818181;
+    background-color: #ffffff;
     padding: 20px;
     border-radius: 20px;
 }
 
 .popup-btn {
     font-family: "Kanit", sans-serif;
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 10px 30px;
     border: none;
     border-radius: 25px;
-    background-color: #00154b;
+    background-color: #db8000;
     border-right-width: 5px;
     border-bottom-width: 5px;
     cursor: pointer;
@@ -234,14 +250,14 @@ main a{
 input {
     background-color: transparent;
     border: solid #00154b 1px;
-    color: white;
+    color: rgb(0, 0, 0);
     padding: 10px 50px;
     border-radius: 15px;
     outline: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 input::placeholder {
-    color: rgba(255, 255, 255, 0.555);
+    color: rgb(73, 73, 73);
 }
 
 #delete-btn {
@@ -250,7 +266,7 @@ input::placeholder {
     background-color: transparent; 
     border: none; 
     cursor: pointer;
-    margin-left: -70px;
+    margin-left: -100px;
 }
 
 #delete-btn:hover {
