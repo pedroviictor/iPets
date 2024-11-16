@@ -53,9 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $services_name = isset($_POST['services_name']) ? $_POST['services_name'] : '';
             $services_description = isset($_POST['services_description']) ? $_POST['services_description'] : '';
             $services_price = isset($_POST['services_price']) ? $_POST['services_price'] : '';
-
-            $services_prive = preg_replace('/./', '', $services_price);
-
+            
             if (!empty($services_name) && !empty($services_description) && !empty($services_price)) {
 
                 $cmd = $connection->prepare("INSERT INTO services (store_id, services_name, services_description, services_price) VALUES (?, ?, ?, ?)");
@@ -211,8 +209,8 @@ if (isset($_GET['success'])) {
                 <div class="info-loja">
                     <h3>Horário</h3>
                     <div class="info">
-                        <p class="hour">Abre às <?php echo htmlspecialchars($store_data['open']); ?> </p>
-                        <p class="hour">Fecha às <?php echo htmlspecialchars($store_data['close']); ?> </p>
+                        <p class="hour">Das <?php echo htmlspecialchars($store_data['open']); ?> </p>
+                        <p class="hour">às <?php echo htmlspecialchars($store_data['close']); ?> </p>
                     </div>
 
                 </div>
@@ -321,6 +319,8 @@ if (isset($_GET['success'])) {
                                     required />
                                 <input class="preco" type="text" name="services_price" step="0.01" min="0" max="999999.99"
                                     placeholder="* Preço do serviço" required />
+                                    <input type="text" name="available_hours" placeholder="* Sessões por dia."
+                                    required />
                                 <button type="submit" class="popup-btn">Adicionar</button>
                             </form>
                         </div>
@@ -377,11 +377,56 @@ if (isset($_GET['success'])) {
             document.body.classList.toggle("popup-true");
         });
 
+        document.querySelectorAll("button")[2].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+
+        document.querySelectorAll("button")[3].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+        document.querySelectorAll("button")[4].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+
         document.querySelectorAll("button")[5].addEventListener("click", function () {
             document.body.classList.toggle("popup-true");
         });
 
         document.querySelectorAll("button")[6].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+
+        document.querySelectorAll("button")[7].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+        document.querySelectorAll("button")[8].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+
+        document.querySelectorAll("button")[9].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+
+        document.querySelectorAll("button")[10].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+
+        document.querySelectorAll("button")[11].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+        document.querySelectorAll("button")[12].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+
+        document.querySelectorAll("button")[13].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+
+        document.querySelectorAll("button")[14].addEventListener("click", function () {
+            document.body.classList.toggle("popup-true");
+        });
+
+        document.querySelectorAll("button")[15].addEventListener("click", function () {
             document.body.classList.toggle("popup-true");
         });
     </script>

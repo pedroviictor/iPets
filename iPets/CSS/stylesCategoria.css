@@ -33,11 +33,23 @@ main h1{
 
 .prods-container{
     display: flex;
-    align-items: center;
-    justify-content: center;
     gap: 60px;
     padding: 0%;
     margin-bottom: 30px;
+}
+
+.prods-container button{
+    background-color: #D86000;
+    border: none;
+    border-radius: 10px;
+    padding: 16px;
+    cursor: pointer;
+    color: white;
+    transition: 0.3s;
+}
+
+.prods-container button:hover{
+    transform: scale(1.03);
 }
 
 .prod{

@@ -1,9 +1,9 @@
 <?php
-
 session_start();
-
 include_once('config.php');
 
+$services_id = isset($_GET['services_id']) ? $_GET['services_id'] : null;
+$selected_date = isset($_GET['date']) ? $_GET['date'] : null;
 
 $grand_total = 0;
 
@@ -19,6 +19,20 @@ if (isset($_SESSION['user_data'])) {
     }
 }
 
+$occupied_times = [];
+if ($selected_date) {
+    $sql = "SELECT date_time FROM agendamentos WHERE DATE(date_time) = ?";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("s", $selected_date);
+    $stmt->execute();
+    $stmt->store_result();
+
+    if ($stmt->num_rows > 0) {
+        while ($row = $stmt->fetch()) {
+            $occupied_times[] = date("H:i", strtotime($row['date_time']));
+        }
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -32,20 +46,16 @@ if (isset($_SESSION['user_data'])) {
     <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
     <title>Agendamento</title>
 </head>
 
 <body>
 
     <nav class="navbar">
-
         <a href="./index.php">
             <img src="./IMG/ipets-logo.png" class="navbar-logo">
         </a>
-
         <div class="navbar-pesq">
             <div class="navbar-pesq-input-container">
                 <input type="text" placeholder="Loja ou item para seu pet, busque aqui" class="navbar-pesq-input">
@@ -57,7 +67,7 @@ if (isset($_SESSION['user_data'])) {
                 <div class="navbar-perfil-img">
                     <img src="./IMG/perfil-icon.png">
                 </div>
-                <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+                <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
             </a>
             <a class="navbar-carrinho" href="./carrinho1.php">
                 <div>
@@ -85,7 +95,6 @@ if (isset($_SESSION['user_data'])) {
         <a class="navbar-localiza">
             <img src="./IMG/localizacao-icon.png">
         </a>
-
     </nav>
 
     <main>
@@ -94,20 +103,33 @@ if (isset($_SESSION['user_data'])) {
 
         <br>
 
-        <!-- Modelo que usaríamos para criar todos os contêiners com os dias e horas disponíveis para agendamento -->
         <div class="horarios-dia">
-            <h3 class="txt" id="dia">30 JUL. 2024</h3>
-            <p class="txt" class="desc">3 Horários encontrados</p>
+            <?php
+            if ($selected_date && DateTime::createFromFormat('Y-m-d', $selected_date)) {
+                $formatted_date = DateTime::createFromFormat('Y-m-d', $selected_date)->format('d/m/Y');
+            } else {
+                $formatted_date = date('d/m/Y');
+            }
+            ?>
+
+            <h3 class="txt date" id="dia"><?php echo htmlspecialchars($formatted_date); ?></h3>
+            <p class="txt">3 horários disponíveis</p>
             <hr noshade="noshade" size="1">
             <div class="horarios">
                 <ul>
-                    <li><a href="#popup">10:00</a></li>
-                    <li><a href="#popup">14:00</a></li>
-                    <li><a href="#popup">18:00</a></li>
+                    <?php 
+                    $available_times = ['10:00', '14:00', '18:00'];
+                    foreach ($available_times as $time) {
+                        if (in_array($time, $occupied_times)) {
+                            echo "<li><button disabled> $time </button></li>";  // Desabilitar se ocupado
+                        } else {
+                            echo "<li><button> $time </button></li>";  // Habilitar se disponível
+                        }
+                    }
+                    ?>
                 </ul>
             </div>
         </div>
-        <!-- Fim do modelo -->
 
         <br>
 
@@ -115,32 +137,11 @@ if (isset($_SESSION['user_data'])) {
             <a class="back-button" onclick="history.back()">Cancelar</a>
         </div>
 
-        <div id="popup" class="overlay">
-            <div class="popup-container">
-                <div class="txt-popup">
-                    <h3>Confirmar Agendamento de:</h3>
-                    <div class="popup-content">
-                        <div class="img-popup">
-                            <img src="https://static.wixstatic.com/media/5e76bd_d1ad86125edc4a4598525226bf03b369~mv2.jpg/v1/crop/x_778,y_25,w_593,h_748/fill/w_460,h_580,al_c,q_80,usm_0.66_1.00_0.01,enc_auto/Bath-Dog.jpg"
-                                alt="Cachorro da raça Yorkshire terrier com uma touca de banho cor de rosa">
-                        </div>
-                        <div>
-                            <p>Banho canino simples P</p>
-                            <!-- ↑ Aqui mostraria, coletando por algum método (provavelmente usando JS para, quando selecionar um serviço, guardar o nome dele); Como exemplo, usamos Banho canino simples P -->
-                            <p>30 de Julho de 2024</p>
-                            <!-- ↑ Aqui mostraria, pegando com base nas escolhas do usuário realizadas (coletaríamos após ele selecionar a hora, fazendo uma filtragem dos dias anteriormente selecionados, deixando apenas aquele no qual deseja realizar o agendamento; Creio ser possível realizar isso com JS), o dia selecionado para agendar; Como exemplo, usamos dia 30 de Julho de 2024 -->
-                            <!-- ↑ No JS da página do calendário, tem um lugar onde são armazenados os dias selecionados, ali usaríamos para tanto realizar essa filtragem quanto para mostrar os dias com as horas possíveis para agendamento, na parte de cima da página -->
-                            <p>10:00</p>
-                            <!-- ↑ Aqui mostraria o horário selecionado agora (também usando JS, apenas coletando a hora na qual foi selecionada) -->
-                        </div>
-                    </div>
-                </div>
-                <div class="buttons-popup">
-                    <a class="back-button-popup" onclick="history.back()">Voltar</a>
-                    <a class="next-button-popup" href="./aguardo.php">Confirmar</a>
-                </div>
-            </div>
-        </div>
+        <form id="horario-form" action="processa_agendamento.php" method="POST">
+            <input type="hidden" name="services_id" value="<?php echo $services_id; ?>">
+            <input type="hidden" name="selected_date" id="selected_date" value="<?php echo $selected_date; ?>">
+            <input type="hidden" name="selected_time" id="selected_time">
+        </form>
     </main>
 
     <br>
@@ -169,6 +170,26 @@ if (isset($_SESSION['user_data'])) {
             </div>
         </div>
     </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const buttons = document.querySelectorAll('.horarios button');
+
+            buttons.forEach(button => {
+                button.addEventListener('click', function () {
+                    const selectedTime = this.innerText;
+                    const selectedDate = document.getElementById('dia').innerText;
+
+                    document.getElementById('selected_date').value = selectedDate;
+                    document.getElementById('selected_time').value = selectedTime;
+
+                    document.getElementById('horario-form').submit();
+                });
+            });
+        });
+
+    </script>
+
 </body>
 
 </html>

@@ -55,8 +55,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         $update_cart = "UPDATE cart SET quantity = quantity + 1 WHERE user_id = $user_id AND  store_id = $store_id AND product_id = $product_id";
         $connection->query($update_cart);
     } else {
+        $a_status = 1;
 
-        $insert_cart = "INSERT INTO cart (user_id, store_id, product_id, quantity) VALUES ($user_id, $store_id, $product_id, 1)";
+        $insert_cart = "INSERT INTO cart (user_id, store_id, product_id, quantity, a_status) VALUES ($user_id, $store_id, $product_id, 1, $a_status)";
         $connection->query($insert_cart);
     }
 }
@@ -99,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                 <div class="navbar-perfil-img">
                     <img src="./IMG/perfil-icon.png">
                 </div>
-                <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+                <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
             </a>
             <a class="navbar-carrinho" href="./carrinho1.php">
                 <div>
@@ -218,7 +219,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                             while ($services_data = mysqli_fetch_assoc($result)) {
                                 echo "
                                         <div class='produto'>
-                                            <button href='./calendario.php?services_id=" . $services_data['services_id'] . "'>
+                                            <a href='./calendario.php?services_id=" . $services_data['services_id'] . "'>
                                                 <div class='produto-info'>
                                                     <h5 class='nome-produto'>" . $services_data['services_name'] . "</h5>
                                                     <p class='descricao-produto'>" . $services_data['services_description'] . "</p>
@@ -227,7 +228,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
                                                 <div class='produto-img-container'>
                                                     <img class='produto-img' src='./IMG/servicoIcon.png'>
                                                 </div>
-                                            </button>
+                                            </a>
                                         </div>";
                             }
                         } else {

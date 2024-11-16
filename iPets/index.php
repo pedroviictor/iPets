@@ -58,8 +58,8 @@ if (isset($_SESSION['user_data'])) {
                     <div class="navbar-perfil-img">
                         <img src="./IMG/perfil-icon.png">
                     </div>
-                    <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
-                </a>
+                    <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
+                    </a>
                 <a class="navbar-carrinho" href="./carrinho1.php">
                     <div>
                         <img src="./IMG/carrinho-icon.png">
@@ -175,8 +175,8 @@ if (isset($_SESSION['user_data'])) {
                                     <img src='./IMG/pet-shop-store-icon.png'>
                                     <div class='lojas-info'>
                                         <h4>" . $store_data['store_name'] . "</h4>
-                                        <p>Cães e Gatos - 1,2 km</p>
-                                        <p>Aberto até 19:00 - Serviços até 18:00</p>
+                                        <p>Das <span class='hour'>" . $store_data['store_open'] . "</span></p>
+                                        <p>às <span class='hour'>" . $store_data['store_close'] . "</span></p>
                                     </div>
                                 </div>
                             </a>

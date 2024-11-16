@@ -1,11 +1,15 @@
 <?php
+session_start();
+include_once('config.php');
 
 $grand_total = 0;
 
 if (isset($_SESSION['user_data'])) {
     $user_id = $_SESSION['user_data']['id'];
 
-    $sql = "SELECT total FROM cart WHERE user_id = $user_id LIMIT 1";
+    $sql = "SELECT SUM(product_price * quantity) AS total FROM cart 
+            JOIN products ON cart.product_id = products.product_id 
+            WHERE cart.user_id = $user_id";
     $result = $connection->query($sql);
 
     if ($result->num_rows > 0) {
@@ -14,6 +18,25 @@ if (isset($_SESSION['user_data'])) {
     }
 }
 
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
+    $product_id = intval($_POST['product_id']);
+    $store_id = intval($_POST['store_id']);
+    $user_id = $_SESSION['user_data']['id'];
+
+    $check_cart = "SELECT * FROM cart WHERE user_id = $user_id AND store_id = $store_id AND product_id = $product_id";
+    $result = $connection->query($check_cart);
+
+    if ($result->num_rows > 0) {
+        $update_cart = "UPDATE cart SET quantity = quantity + 1 WHERE user_id = $user_id AND store_id = $store_id AND product_id = $product_id";
+        $connection->query($update_cart);
+    } else {
+        $insert_cart = "INSERT INTO cart (user_id, store_id, product_id, quantity) VALUES ($user_id, $store_id, $product_id, 1)";
+        $connection->query($insert_cart);
+    }
+}
+
+$query = "SELECT * FROM products WHERE product_category = 4";
+$result = $connection->query($query);
 ?>
 
 <!DOCTYPE html>
@@ -52,7 +75,7 @@ if (isset($_SESSION['user_data'])) {
                 <div class="navbar-perfil-img">
                     <img src="./IMG/perfil-icon.png">
                 </div>
-                <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+                <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
             </a>
             <a class="navbar-carrinho" href="./carrinho1.php">
                 <div>
@@ -103,264 +126,46 @@ if (isset($_SESSION['user_data'])) {
     <hr>
 
     <main>
+    <h1>Melhores Ofertas</h1>
 
-        <h1>Melhores Ofertas</h1>
-
-        <div class="prods-container">
-            <div class="prod">
-                <div class="prod-img-container">
-                    <img src="./IMG/anuncio1Categoria.png">
-                </div>
-                <div class="prod-info">
-                    <div class="prod-info-base">
-                        <h3>Ração nutrópica mel e ovos 200g</h3>
-                        <p>R$ 19,99</p>
-                        <a href="">Adicionar ao Carrinho</a>
+    <div class="prods-container">
+        <?php
+        if ($result->num_rows > 0) {
+            while ($produto = $result->fetch_assoc()) {
+                echo '
+                <form action="" method="POST" class="prod">
+                    <div class="prod-img-container">
+                        <img src="./IMG/anuncio1Categoria.png">
                     </div>
-                    <hr>
-                    <div class="prod-info-loja-info">
-                        <div class="prod-info-img-container">
-                            <img src="./IMG/loja1.png">
+                    <div class="prod-info">
+                        <div class="prod-info-base">
+                            <h3>' . htmlspecialchars($produto['product_name']) . '</h3>
+                            <p>R$ ' . number_format($produto['product_price'], 2, ',', '.') . '</p>
+                            <input type="hidden" name="product_id" value="' . $produto['product_id'] . '">
+                            <input type="hidden" name="store_id" value="' . $produto['store_id'] . '">
+                            <button type="submit" name="add_to_cart" class="add-to-cart" onclick="return confirm(\'Tem certeza que deseja comprar este produto?\');">Adicionar ao carrinho</button>
                         </div>
-                        <div class="prod-info-loja-info-entrega">
-                            <p>40-50 min</p>
-                            <p>•</p>
-                            <p>Grátis</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="prod">
-                <div class="prod-img-container">
-                    <img src="./IMG/anuncio2Categoria.png">
-                </div>
-                <div class="prod-info">
-                    <div class="prod-info-base">
-                        <h3>Ração Nutripássaros Insetívoros e Frugívoros 350g</h3>
-                        <p>R$ 39,99</p>
-                        <a href="">Adicionar ao Carrinho</a>
-                    </div>
-                    <hr>
-                    <div class="prod-info-loja-info">
-                        <div class="prod-info-img-container">
-                            <img src="./IMG/loja2.png">
-                        </div>
-                        <div class="prod-info-loja-info-entrega">
-                            <p>40-50 min</p>
-                            <p>•</p>
-                            <p>Grátis</p>
+                        <hr>
+                        <div class="prod-info-loja-info">
+                            <div class="prod-info-img-container">
+                                <img src="./IMG/pet-shop-store-icon.png" alt="Ícone da loja">
+                            </div>
+                            <div class="prod-info-loja-info-entrega">
+                                <p>40-50 min</p>
+                                <p>•</p>
+                                <p>Grátis</p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="prod">
-                <div class="prod-img-container">
-                    <img src="./IMG/anuncio3Categoria.png">
-                </div>
-                <div class="prod-info">
-                    <div class="prod-info-base">
-                        <h3>Balanço colorido interativo para aves</h3>
-                        <p>R$ 14,90</p>
-                        <a href="">Adicionar ao Carrinho</a>
-                    </div>
-                    <hr>
-                    <div class="prod-info-loja-info">
-                        <div class="prod-info-img-container">
-                            <img src="./IMG/loja3.png">
-                        </div>
-                        <div class="prod-info-loja-info-entrega">
-                            <p>40-50 min</p>
-                            <p>•</p>
-                            <p>Grátis</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="prod">
-                <div class="prod-img-container">
-                    <img src="./IMG/anuncio4Categoria.png">
-                </div>
-                <div class="prod-info">
-                    <div class="prod-info-base">
-                        <h3>Remédio para aves Karabé 30 ml</h3>
-                        <p>R$ 19,99</p>
-                        <a href="">Adicionar ao Carrinho</a>
-                    </div>
-                    <hr>
-                    <div class="prod-info-loja-info">
-                        <div class="prod-info-img-container">
-                            <img src="./IMG/loja4.png">
-                        </div>
-                        <div class="prod-info-loja-info-entrega">
-                            <p>40-50 min</p>
-                            <p>•</p>
-                            <p>Grátis</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="filtros">
-            <div class="filtro">
-                <div class="dropdown-container">
-                    <button class="dropdown-button">
-                        Ordenar por<span class="dropdown-seta"></span>
-                    </button>
-                    <div class="dropdown-content">
-                        <label class="radio-container">
-                            <input type="radio" name="ordenar" />
-                            <span class="radio-box"></span>
-                            <p class="radio-text">Lorem Ipsum</p>
-                        </label>
-                        <label class="radio-container">
-                            <input type="radio" name="ordenar" />
-                            <span class="radio-box"></span>
-                            <p class="radio-text">Lorem Ipsum</p>
-                        </label>
-                        <label class="radio-container">
-                            <input type="radio" name="ordenar" />
-                            <span class="radio-box"></span>
-                            <p class="radio-text">Lorem Ipsum</p>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="filtro">
-                <label class="checkbox-container">
-                    <input type="checkbox" />
-                    <p class="checkbox-text">Entrega Grátis</p>
-                </label>
-            </div>
-
-            <div class="filtro">
-                <label class="checkbox-container">
-                    <input type="checkbox" />
-                    <p class="checkbox-text">Serviços</p>
-                </label>
-            </div>
-
-            <div class="filtro">
-                <label class="checkbox-container">
-                    <input type="checkbox" />
-                    <p class="checkbox-text">Remédios</p>
-                </label>
-            </div>
-        </div>
-
-        <div class="lojas-container">
-
-            <div class="lojas">
-                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
-                    <div class="lojas-info-total">
-                        <img src="./IMG/pet-shop-store-icon.png">
-                        <div class="lojas-info">
-                            <h4>Pet Shop Store</h4>
-                            <p>Cães e Gatos - 1,2 km</p>
-                            <p>Aberto até 19:00 - Serviços até 18:00</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="lojas">
-                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
-                    <div class="lojas-info-total">
-                        <img src="./IMG/pet-shop-store-icon.png">
-                        <div class="lojas-info">
-                            <h4>Pet Shop Store</h4>
-                            <p>Cães e Gatos - 1,2 km</p>
-                            <p>Aberto até 19:00 - Serviços até 18:00</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="lojas">
-                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
-                    <div class="lojas-info-total">
-                        <img src="./IMG/pet-shop-store-icon.png">
-                        <div class="lojas-info">
-                            <h4>Pet Shop Store</h4>
-                            <p>Cães e Gatos - 1,2 km</p>
-                            <p>Aberto até 19:00 - Serviços até 18:00</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="lojas">
-                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
-                    <div class="lojas-info-total">
-                        <img src="./IMG/pet-shop-store-icon.png">
-                        <div class="lojas-info">
-                            <h4>Pet Shop Store</h4>
-                            <p>Cães e Gatos - 1,2 km</p>
-                            <p>Aberto até 19:00 - Serviços até 18:00</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="lojas">
-                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
-                    <div class="lojas-info-total">
-                        <img src="./IMG/pet-shop-store-icon.png">
-                        <div class="lojas-info">
-                            <h4>Pet Shop Store</h4>
-                            <p>Cães e Gatos - 1,2 km</p>
-                            <p>Aberto até 19:00 - Serviços até 18:00</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="lojas">
-                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
-                    <div class="lojas-info-total">
-                        <img src="./IMG/pet-shop-store-icon.png">
-                        <div class="lojas-info">
-                            <h4>Pet Shop Store</h4>
-                            <p>Cães e Gatos - 1,2 km</p>
-                            <p>Aberto até 19:00 - Serviços até 18:00</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="lojas">
-                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
-                    <div class="lojas-info-total">
-                        <img src="./IMG/pet-shop-store-icon.png">
-                        <div class="lojas-info">
-                            <h4>Pet Shop Store</h4>
-                            <p>Cães e Gatos - 1,2 km</p>
-                            <p>Aberto até 19:00 - Serviços até 18:00</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="lojas">
-                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
-                    <div class="lojas-info-total">
-                        <img src="./IMG/pet-shop-store-icon.png">
-                        <div class="lojas-info">
-                            <h4>Pet Shop Store</h4>
-                            <p>Cães e Gatos - 1,2 km</p>
-                            <p>Aberto até 19:00 - Serviços até 18:00</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="lojas">
-                <a href="./paginaLoja.php" style="text-decoration: none; color: #000;">
-                    <div class="lojas-info-total">
-                        <img src="./IMG/pet-shop-store-icon.png">
-                        <div class="lojas-info">
-                            <h4>Pet Shop Store</h4>
-                            <p>Cães e Gatos - 1,2 km</p>
-                            <p>Aberto até 19:00 - Serviços até 18:00</p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-    </main>
-
+                </form>
+                ';
+            }
+        } else {
+            echo '<p>Não há produtos disponíveis nesta categoria.</p>';
+        }
+        ?>
+    </div>
+</main>
     <div class="anuncios-fim">
         <div class="anuncio-fim">
             <img src="IMG/anuncio1CategoriaFim.png">

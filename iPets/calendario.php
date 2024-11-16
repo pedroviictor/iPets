@@ -1,18 +1,13 @@
 <?php
-
 session_start();
-
 include_once('config.php');
 
-
 $grand_total = 0;
-
 if (isset($_SESSION['user_data'])) {
   $user_id = $_SESSION['user_data']['id'];
 
   $sql = "SELECT total FROM cart WHERE user_id = $user_id LIMIT 1";
   $result = $connection->query($sql);
-
   if ($result->num_rows > 0) {
     $row = $result->fetch_assoc();
     $grand_total = $row['total'];
@@ -24,10 +19,8 @@ if (isset($_GET['services_id'])) {
 
   $sql = "SELECT * FROM services WHERE services_id = $services_id";
   $result = $connection->query($sql);
-
   if ($result->num_rows > 0) {
     $services_data = $result->fetch_assoc();
-
   } else {
     echo "Serviço não encontrado.";
   }
@@ -35,6 +28,16 @@ if (isset($_GET['services_id'])) {
   echo "Serviço não encontrado.";
 }
 
+$sql = "SELECT date_time FROM agendamentos WHERE store_id = ? AND date_time >= NOW()";
+$stmt = $connection->prepare($sql);
+$stmt->bind_param("i", $store_id);
+$stmt->execute();
+$result = $stmt->get_result();
+
+$booked_dates = [];
+while ($row = $result->fetch_assoc()) {
+    $booked_dates[] = $row['date_time'];
+}
 ?>
 
 <!DOCTYPE html>
@@ -48,8 +51,7 @@ if (isset($_GET['services_id'])) {
   <link rel="icon" href="./IMG/favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+  <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
   <script src="./JS/scriptAgendamento.js" defer></script>
   <title>Agendamento</title>
@@ -58,7 +60,6 @@ if (isset($_GET['services_id'])) {
 <body>
 
   <nav class="navbar">
-
     <a href="./index.php">
       <img src="./IMG/ipets-logo.png" class="navbar-logo">
     </a>
@@ -74,8 +75,8 @@ if (isset($_GET['services_id'])) {
         <div class="navbar-perfil-img">
           <img src="./IMG/perfil-icon.png">
         </div>
-        <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
-      </a>
+        <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
+        </a>
       <a class="navbar-carrinho" href="./carrinho1.php">
         <div>
           <img src="./IMG/carrinho-icon.png">
@@ -102,31 +103,28 @@ if (isset($_GET['services_id'])) {
     <a class="navbar-localiza">
       <img src="./IMG/localizacao-icon.png">
     </a>
-
   </nav>
 
   <main>
     <h2>Agendar</h2>
-    <p class="descriçao">Selecione até 3 datas de sua preferência.</p>
-
+    <p class="descriçao">Selecione uma data de sua preferência.</p>
 
     <div id="calendar-container">
       <div id="calendar"></div>
     </div>
 
-
     <div class="legenda">
       <div>
-        <div class="elemento-leg selec"></div> Dias Selecionados
+        <div class="elemento-leg selec"></div> Dia selecionado
       </div>
       <div>
-        <div class="elemento-leg atual"></div> Dia Atual
+        <div class="elemento-leg atual"></div> Dia atual
       </div>
       <div>
-        <div class="elemento-leg disp"></div> Dia Disponível na Agenda
+        <div class="elemento-leg disp"></div> Dia disponível na agenda
       </div>
       <div>
-        <div class="elemento-leg ocup"></div> Dia sem Disponibilidade na Agenda
+        <div class="elemento-leg ocup"></div> Dia sem disponibilidade na agenda
       </div>
     </div>
 
@@ -135,7 +133,7 @@ if (isset($_GET['services_id'])) {
 
     <div class="buttons">
       <a class="back-button" onclick="history.back()">Voltar</a>
-      <a class="next-button" href="./horarios.php">Continuar</a>
+      <a class="next-button" href="javascript:void(0);" onclick="continuarAgendamento()">Continuar</a>
     </div>
 
     <br>
@@ -167,6 +165,28 @@ if (isset($_GET['services_id'])) {
       </div>
     </div>
   </footer>
+
+  <script>
+    
+function continuarAgendamento() {
+    const selectedDate = localStorage.getItem('selectedDate');
+    const services_id = <?php echo $services_id; ?>;
+
+    if (selectedDate && services_id) {
+        const url = `horarios.php?date=${selectedDate}&services_id=${services_id}`;
+        window.location.href = url;
+    } else {
+        alert('Selecione uma data antes de continuar.');
+    }
+}
+
+createCalendar(currentMonth, currentYear);
+
+const continuarButton = document.querySelector('.next-button');
+continuarButton.addEventListener('click', continuarAgendamento);
+
+  </script>
+
 </body>
 
 </html>

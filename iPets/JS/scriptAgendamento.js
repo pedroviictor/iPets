@@ -50,14 +50,20 @@ function createCalendar(month, year) {
     document.querySelectorAll('#calendar td[data-date]').forEach(dayElement => {
         dayElement.addEventListener('click', function () {
             const date = this.getAttribute('data-date');
-            if (selectedDays.includes(date)) {
-                selectedDays = selectedDays.filter(d => d !== date);
-                this.classList.remove('selected-day');
-            } else if (selectedDays.length < 3) {
-                selectedDays.push(date);
-                this.classList.add('selected-day');
+
+            if (selectedDays.length > 0) {
+                const previouslySelected = document.querySelector(`td[data-date="${selectedDays[0]}"]`);
+                if (previouslySelected) {
+                    previouslySelected.classList.remove('selected-day');
+                }
             }
-            console.log('Dias selecionados: ', selectedDays); // Dias selecionados
+
+            selectedDays = [date];
+            this.classList.add('selected-day');
+
+            localStorage.setItem('selectedDate', selectedDays[0]);
+
+            console.log('Dia selecionado: ', selectedDays[0]);
         });
     });
 
@@ -81,5 +87,4 @@ function createCalendar(month, year) {
         createCalendar(currentMonth, currentYear);
     });
 }
-
 createCalendar(currentMonth, currentYear);

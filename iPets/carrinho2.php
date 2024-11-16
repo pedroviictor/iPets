@@ -35,8 +35,8 @@
                 <div class="navbar-perfil-img">
                     <img src="./IMG/perfil-icon.png">
                 </div>
-                <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
-            </a>
+                <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
+                </a>
         <?php else: ?>
             <a href="cadselect.php" class="navbar-perfil">
                 <div class="navbar-perfil-img">

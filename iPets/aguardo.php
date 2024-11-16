@@ -57,8 +57,8 @@ if (isset($_SESSION['user_data'])) {
                 <div class="navbar-perfil-img">
                     <img src="./IMG/perfil-icon.png">
                 </div>
-                <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
-            </a>
+                <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
+                </a>
             <a class="navbar-carrinho" href="./carrinho1.php">
                 <div>
                     <img src="./IMG/carrinho-icon.png">

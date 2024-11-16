@@ -19,6 +19,17 @@ if (isset($_SESSION['user_data'])) {
     }
 }
 
+if (isset($_SESSION['user_data'])) {
+    $user_id = $_SESSION['user_data']['id'];
+
+    $sql = "SELECT * FROM cart WHERE user_id = $user_id";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+    }
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -95,7 +106,7 @@ if (isset($_SESSION['user_data'])) {
 
         <div class="emAnd">
 
-            <h2>Em andamento</h2>
+            <h2>Em aguardo</h2>
 
             <div class="emAnd-prod-group">
 
@@ -132,68 +143,9 @@ if (isset($_SESSION['user_data'])) {
                     </div>
                 </div>
 
-                <div class="emAnd-prod">
-                    <div class="prod-loja">
-                        <ul>
-                            <li><img src="https://as1.ftcdn.net/v2/jpg/02/83/70/50/1000_F_283705015_jm0OLjgHmj3fS5OYvSM2S6xe6nVwXxh7.jpg"
-                                    alt="logo da loja"></li>
-                            <li>
-                                <p>Pet Shop Store</p>
-                            </li>
-                            <li class="store-link"><a href="">></a></li>
-                        </ul>
-                    </div>
-                    <hr>
-                    <div class="prod-stts-simple">
-                        <ul>
-                            <li class="status">
-                                <h5>Serviço em andamento</h5>
-                            </li>
-                            <li>
-                                <h5 class="items-number">1</h5>
-                                <h5>Banho canino comum P</h5>
-                            </li>
-                        </ul>
-                    </div>
-                    <hr>
-                    <div class="emAnd-prod-stts-container">
-                        <a class="emAnd-prod-stts" href="">Acompanhar status</a>
-                    </div>
-                </div>
+                
 
-                <div class="emAnd-prod">
-                    <div class="prod-loja">
-                        <ul>
-                            <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsSnU96G0Du76updyWR-tJhm_f8B80YsboNw&s"
-                                    alt="logo da loja"></li>
-                            <li>
-                                <p>Petz Produtos e Serviços</p>
-                            </li>
-                            <li class="store-link"><a href="">></a></li>
-                        </ul>
-                    </div>
-                    <hr>
-                    <div class="prod-stts-simple">
-                        <ul>
-                            <li class="status">
-                                <h5>Pedido em andamento</h5>
-                            </li>
-                            <li>
-                                <h5 class="items-number">1</h5>
-                                <h5>Ração Nutripássaros Insetívoros e Frugívoros 350g</h5>
-                            </li>
-                            <li>
-                                <h5 class="items-number">1</h5>
-                                <h5>Balanço colorido interativo para aves</h5>
-                            </li>
-                        </ul>
-                    </div>
-                    <hr>
-                    <div class="emAnd-prod-stts-container">
-                        <a class="emAnd-prod-stts" href="">Acompanhar status</a>
-                    </div>
-                </div>
-
+                
             </div>
         </div>
 

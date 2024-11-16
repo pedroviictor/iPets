@@ -65,7 +65,7 @@ $user_data = $_SESSION['user_data'];
                 <div class="navbar-perfil-img">
                     <img src="./IMG/perfil-icon.png">
                 </div>
-                <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+                <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
             </a>
         <?php else: ?>
             <a href="cadselect.php" class="navbar-perfil">
@@ -130,7 +130,7 @@ $user_data = $_SESSION['user_data'];
 
         <div class="botoes">
 
-            <a href="#">
+            <a href="pedidos.php">
                 <div class="botao">
                     <h2 class="pedidos">Acompanhe seus pedidos</h2>
                 </div>
