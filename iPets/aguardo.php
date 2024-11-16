@@ -40,53 +40,53 @@ if (isset($_SESSION['user_data'])) {
 
 <body>
 
-    <nav class="navbar">
+<nav class="navbar">
 
-        <a href="./index.php">
-            <img src="./IMG/ipets-logo.png" class="navbar-logo">
-        </a>
+<a href="./index.php">
+    <img src="./IMG/ipets-logo.png" class="navbar-logo">
+</a>
 
-        <div class="navbar-pesq">
-            <div class="navbar-pesq-input-container">
-                <input type="text" placeholder="Loja ou item para seu pet, busque aqui" class="navbar-pesq-input">
-                <img src="./IMG/pesquisa-icon.png">
-            </div>
+<div class="navbar-pesq">
+    <div class="navbar-pesq-input-container">
+        <input type="text" placeholder="Loja ou item para seu pet, busque aqui" class="navbar-pesq-input">
+        <img src="./IMG/pesquisa-icon.png">
+    </div>
+</div>
+<?php if (isset($_SESSION['user_data'])): ?>
+    <a href="./perfilusuario.php" class="navbar-perfil">
+        <div class="navbar-perfil-img">
+            <img src="./IMG/perfil-icon.png">
         </div>
-        <?php if (isset($_SESSION['user_data'])): ?>
-            <a href="./perfilusuario.php" class="navbar-perfil">
-                <div class="navbar-perfil-img">
-                    <img src="./IMG/perfil-icon.png">
-                </div>
-                <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
-                </a>
-            <a class="navbar-carrinho" href="./carrinho1.php">
-                <div>
-                    <img src="./IMG/carrinho-icon.png">
-                </div>
-                <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
-            </a>
-        <?php else: ?>
-            <a href="cadselect.php" class="navbar-perfil">
-                <div class="navbar-perfil-img">
-                    <img src="./IMG/perfil-icon.png">
-                </div>
-                <p>Entre ou cadastre-se</p>
-            </a>
-            <a class="navbar-carrinho" href="./carrinho1.php">
-                <div>
-                    <img src="./IMG/carrinho-icon.png">
-                </div>
-                <p>R$ 0,00</p>
-            </a>
-        <?php endif; ?>
-        <a class="navbar-veterinario" href="./veterinario.php">
-            <img src="./IMG/vet-icon.png">
+        <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
         </a>
-        <a class="navbar-localiza">
-            <img src="./IMG/localizacao-icon.png">
-        </a>
+    <a class="navbar-carrinho" href="./carrinho1.php">
+        <div>
+            <img src="./IMG/carrinho-icon.png">
+        </div>
+        <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
+    </a>
+<?php else: ?>
+    <a href="cadselect.php" class="navbar-perfil">
+        <div class="navbar-perfil-img">
+            <img src="./IMG/perfil-icon.png">
+        </div>
+        <p>Entre ou cadastre-se</p>
+    </a>
+    <a class="navbar-carrinho" href="./carrinho1.php">
+        <div>
+            <img src="./IMG/carrinho-icon.png">
+        </div>
+        <p>R$ 0,00</p>
+    </a>
+<?php endif; ?>
+<a class="navbar-veterinario" href="./veterinario.php">
+    <img src="./IMG/vet-icon.png">
+</a>
+<a class="navbar-localiza">
+    <img src="./IMG/localizacao-icon.png">
+</a>
 
-    </nav>
+</nav>
 
     <main>
 
@@ -105,22 +105,14 @@ if (isset($_SESSION['user_data'])) {
                         <img src="./IMG/solicitado-icon.png">
                         <p>Pedido solicitado</p>
                     </li>
-                    <li class="status">
-                        <img src="./IMG/loja-icon.png">
-                        <p>Pedido aceito pela loja</p>
-                    </li>
-                    <li class="status">
-                        <img src="./IMG/finalizado-icon.png">
-                        <p>Pedido finalizado</p>
-                    </li>
                 </ul>
             </div>
         </div>
 
         <br>
 
-        <div class="button">
-            <a class="next-button" href="./index.php">Voltar para a página inicial</a>
+        <div style="margin-left: 26px" class="button">
+            <a class="next-button" href="./pedidos.php">Ver seus pedidos</a>
         </div>
 
         <br>

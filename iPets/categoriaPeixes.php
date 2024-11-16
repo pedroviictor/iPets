@@ -126,13 +126,13 @@ $result = $connection->query($query);
     <hr>
 
     <main>
-    <h1>Melhores Ofertas</h1>
+        <h1>Melhores Ofertas</h1>
 
-    <div class="prods-container">
-        <?php
-        if ($result->num_rows > 0) {
-            while ($produto = $result->fetch_assoc()) {
-                echo '
+        <div class="prods-container">
+            <?php
+            if ($result->num_rows > 0) {
+                while ($produto = $result->fetch_assoc()) {
+                    echo '
                 <form action="" method="POST" class="prod">
                     <div class="prod-img-container">
                         <img src="./IMG/anuncio1Categoria.png">
@@ -159,13 +159,44 @@ $result = $connection->query($query);
                     </div>
                 </form>
                 ';
+                }
+            } else {
+                echo '<p>Não há produtos disponíveis nesta categoria.</p>';
             }
-        } else {
-            echo '<p>Não há produtos disponíveis nesta categoria.</p>';
-        }
-        ?>
-    </div>
-</main>
+            ?>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <h2>Confira algumas lojas!</h2>
+
+        <div class="lojas-content">
+            <div class="lojas-container">
+
+                <?php
+                $sql = "SELECT * FROM store ORDER BY RAND() LIMIT 3";
+                $result = $connection->query($sql);
+
+                while ($store_data = mysqli_fetch_assoc($result)) {
+                    echo "
+                        <div class='lojas'>
+                            <a style='text-decoration: none; color: #000;' class='lojas-a' href='./paginaLoja.php?store_id=" . $store_data['store_id'] . "'>
+                                <div class='lojas-info-total'>
+                                    <input type='hidden' name='product_id' value='" . $store_data['store_id'] . "'>
+                                    <img src='./IMG/pet-shop-store-icon.png'>
+                                    <div class='lojas-info'>
+                                        <h4>" . $store_data['store_name'] . "</h4>
+                                        <p>Cães e Gatos - 1,2 km</p>
+                                        <p>Aberto até 19:00 - Serviços até 18:00</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>";
+                }
+                ?>
+            </div>
+        </div>
+    </main>
     <div class="anuncios-fim">
         <div class="anuncio-fim">
             <img src="IMG/anuncio1CategoriaFim.png">

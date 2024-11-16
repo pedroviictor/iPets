@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: 15-Nov-2024 às 22:31
+-- Generation Time: 16-Nov-2024 às 22:45
 -- Versão do servidor: 10.1.16-MariaDB
 -- PHP Version: 5.6.24
 
@@ -23,6 +23,23 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estrutura da tabela `agendamentos`
+--
+
+CREATE TABLE `agendamentos` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  `store_id` int(11) NOT NULL,
+  `services_id` int(11) NOT NULL,
+  `services_name` text NOT NULL,
+  `date_time` datetime NOT NULL,
+  `total` decimal(10,2) NOT NULL,
+  `a_status` int(11) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `cart`
 --
 
@@ -32,7 +49,8 @@ CREATE TABLE `cart` (
   `store_id` int(11) NOT NULL,
   `product_id` int(11) NOT NULL,
   `quantity` int(11) DEFAULT '1',
-  `total` decimal(10,2) DEFAULT '0.00'
+  `total` decimal(10,2) DEFAULT '0.00',
+  `a_status` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -50,6 +68,13 @@ CREATE TABLE `products` (
   `stock_quantity` int(11) DEFAULT NULL,
   `product_category` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `products`
+--
+
+INSERT INTO `products` (`product_id`, `store_id`, `product_name`, `product_description`, `product_price`, `stock_quantity`, `product_category`) VALUES
+(2, 2, 'AquÃ¡rio 20L', 'AquÃ¡rio de vidro 40x20x25', '139.90', 5, 4);
 
 -- --------------------------------------------------------
 
@@ -81,6 +106,13 @@ CREATE TABLE `services` (
   `available_hours` text
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Extraindo dados da tabela `services`
+--
+
+INSERT INTO `services` (`services_id`, `store_id`, `services_name`, `services_price`, `services_description`, `available_hours`) VALUES
+(1, 4, 'Banho para cachorros pequenos', '79.90', 'Banho para cachorros de pequeno porte', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -101,6 +133,15 @@ CREATE TABLE `store` (
   `store_close` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Extraindo dados da tabela `store`
+--
+
+INSERT INTO `store` (`store_id`, `store_name`, `store_email`, `store_tel`, `store_cnpj`, `store_cidade`, `store_estado`, `store_end`, `store_senha`, `store_open`, `store_close`) VALUES
+(1, 'Petz', 'petz.petshop@gmail.com', '11994283742', '38282447000173', 'CarapicuÃ­ba', 'SÃ£o Paulo', 'Avenida InocÃªncio SerÃ¡fico', '1234', '08:00:00', '19:00:00'),
+(2, 'Recanto dos AquÃ¡rios', 'recantoaquarios@email.com', '1199237924', '90886362000114', 'CarapicuÃ­ba', 'SÃ£o Paulo', 'Rua Miguel Feitosa, 54', '1234', '10:00:00', '19:00:00'),
+(4, 'Petshop Alegria', 'petalegria@email.com', '8234623462', '90886362000114', 'Belo Horizonte', 'Minas Gerais', 'Estrada Santa Maria, 324', '1234', '09:30:00', '17:00:00');
+
 -- --------------------------------------------------------
 
 --
@@ -117,8 +158,25 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
+-- Extraindo dados da tabela `user`
+--
+
+INSERT INTO `user` (`user_id`, `user_name`, `user_email`, `user_tel`, `user_cpf`, `user_senha`) VALUES
+(1, 'RogÃ©rio Souza Silva', 'rogerio@email.com', '11994283742', '60610530020', '1234');
+
+--
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `agendamentos`
+--
+ALTER TABLE `agendamentos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `user_id` (`user_id`),
+  ADD KEY `store_id` (`store_id`),
+  ADD KEY `services_id` (`services_id`),
+  ADD KEY `store_id_2` (`store_id`);
 
 --
 -- Indexes for table `cart`
@@ -168,15 +226,20 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `agendamentos`
+--
+ALTER TABLE `agendamentos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+--
 -- AUTO_INCREMENT for table `cart`
 --
 ALTER TABLE `cart`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `product_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `register`
 --
@@ -186,17 +249,17 @@ ALTER TABLE `register`
 -- AUTO_INCREMENT for table `services`
 --
 ALTER TABLE `services`
-  MODIFY `services_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `services_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 --
 -- AUTO_INCREMENT for table `store`
 --
 ALTER TABLE `store`
-  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `store_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `user_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 --
 -- Constraints for dumped tables
 --

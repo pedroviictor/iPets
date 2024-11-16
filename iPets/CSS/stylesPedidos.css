@@ -58,7 +58,7 @@ main h2{
     align-items: center;
 }
 
-.status::before{
+.emAnd-prod .status::before{
     content: '';
     width: 15px;
     height: 15px;
@@ -181,7 +181,7 @@ main h2{
     align-items: center;
 }
 
-.hist-prod .status::before{
+.hist-prod .hist-prod-stts .status::before{
     content: '';
     width: 15px;
     height: 15px;

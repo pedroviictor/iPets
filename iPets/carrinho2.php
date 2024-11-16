@@ -1,3 +1,44 @@
+<?php
+
+session_start();
+
+include_once('config.php');
+
+
+$grand_total = 0;
+
+if (isset($_SESSION['user_data'])) {
+    $user_id = $_SESSION['user_data']['id'];
+
+    $sql = "SELECT total FROM cart WHERE user_id = $user_id LIMIT 1";
+    $result = $connection->query($sql);
+
+    if ($result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+        $grand_total = $row['total'];
+    }
+}
+
+$sql = "SELECT p.product_name, p.product_price, c.quantity 
+        FROM cart c 
+        JOIN products p ON c.product_id = p.product_id 
+        WHERE c.user_id = $user_id";
+$result = $connection->query($sql);
+
+$cart_products = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $cart_products[] = $row;
+    }
+}
+
+$shipping_fee = 11.90;
+$total = array_reduce($cart_products, function ($sum, $product) {
+    return $sum + $product['product_price'] * $product['quantity'];
+}, 0);
+
+$grand_total = $total + $shipping_fee;
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -36,13 +77,25 @@
                     <img src="./IMG/perfil-icon.png">
                 </div>
                 <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
-                </a>
+            </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
+            </a>
         <?php else: ?>
             <a href="cadselect.php" class="navbar-perfil">
                 <div class="navbar-perfil-img">
                     <img src="./IMG/perfil-icon.png">
                 </div>
                 <p>Entre ou cadastre-se</p>
+            </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ 0,00</p>
             </a>
         <?php endif; ?>
         <a class="navbar-veterinario" href="./veterinario.php">
@@ -51,12 +104,7 @@
         <a class="navbar-localiza">
             <img src="./IMG/localizacao-icon.png">
         </a>
-        <a class="navbar-carrinho" href="./carrinho1.php">
-            <div>
-                <img src="./IMG/carrinho-icon.png">
-            </div>
-            <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
-        </a>
+
     </nav>
 
     <main>
@@ -78,7 +126,7 @@
 
         <p class="tit">Pagamento</p>
         <div class="tabs-container">
-            <div class="tab" onclick="showTab('app')">
+            <div class="tab" onclick="showTab('app');  updatePaymentMethod('Cartão de crédito')">
                 <span id="tab-app" class="tab-title active">Pagar no App</span>
             </div>
             <div class="tab" onclick="showTab('entrega')">
@@ -117,19 +165,20 @@
 
         <div id="entrega-content" class="content-container" style="display: none;">
             <div class="pag">
-                <div class="pag-element" id="pix" data-payment="pix">
+                <div class="pag-element" id="pix" data-payment="pix" onclick="updatePaymentMethod('Pix')">
                     <img src="./IMG/icone-pix.png" alt="Logo do Pix">
                     <p>Pix</p>
                 </div>
-                <div class="pag-element" id="cred" data-payment="cred">
+                <div class="pag-element" id="cred" data-payment="cred"
+                    onclick="updatePaymentMethod('Cartão de Crédito')">
                     <img src="./IMG/icon-cartao.png" alt="Ícone representando um cartão">
                     <p>Cartão de Crédito</p>
                 </div>
-                <div class="pag-element" id="deb" data-payment="deb">
+                <div class="pag-element" id="deb" data-payment="deb" onclick="updatePaymentMethod('Cartão de Débito')">
                     <img src="./IMG/icon-cartao.png" alt="Ícone representando um cartão">
                     <p>Cartão de Débito</p>
                 </div>
-                <div class="pag-element" id="din" data-payment="din">
+                <div class="pag-element" id="din" data-payment="din" onclick="updatePaymentMethod('Dinheiro')">
                     <img src="./IMG/icon-dinheiro.png" alt="Ícone representando uma nota de dinheiro">
                     <p>Dinheiro</p>
                 </div>
@@ -152,38 +201,37 @@
                 <h3>Itens</h3>
                 <br>
                 <div class="pop-itens">
-                    <div class="pop-itens-prod">
-                        <p>Ração Nutripássaros Insetívoros e Frugívoros 350g</p>
-                        <p style="text-align: right;">R$ 39,80</p>
-                    </div>
-                    <div class="pop-itens-prod">
-                        <p>Balanço colorido interativo para aves</p>
-                        <p style="text-align: right;">R$ 14,90</p>
-                    </div>
+                    <?php foreach ($cart_products as $product): ?>
+                        <div class="pop-itens-prod">
+                            <p><?php echo htmlspecialchars($product['product_name']); ?></p>
+                            <p style="text-align: right;">R$
+                                <?php echo number_format($product['product_price'] * $product['quantity'], 2, ',', '.'); ?>
+                            </p>
+                        </div>
+                    <?php endforeach; ?>
                 </div>
                 <hr>
                 <h3>Entrega</h3>
                 <br>
                 <div class="pop-ent">
                     <div class="pop-ent-item">
-                        <p style="font-weight: normal; font-size: 20px;">Rápida</p>
+                        <p>Rápida</p>
                         <p>Hoje, 120 - 150 mins</p>
                     </div>
                     <div class="pop-ent-item" style="text-align: right;">
-                        <p style="font-weight: normal; font-size: 20px;">Rua da Alegria, 202</p>
+                        <p>Rua da Alegria, 202</p>
                         <p>Jardim do Hospício</p>
                     </div>
                 </div>
                 <hr>
                 <h3>Pagamento</h3>
                 <br>
-
                 <div class="pop-pag">
                     <div class="pop-pag-item">
-                        <p style="font-weight: normal; font-size: 20px;">Dinheiro</p>
+                        <p id="selected-payment-method">Cartão de crédito</p>
                     </div>
                     <div class="pop-pag-item" style="text-align: right;">
-                        <p style="font-weight: normal; font-size: 20px;">R$ 66,60</p>
+                        <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
                     </div>
                 </div>
             </div>
@@ -193,6 +241,7 @@
             </div>
         </div>
     </div>
+
 
     <footer class="footer">
         <div class="footer-element">
@@ -218,6 +267,16 @@
             </div>
         </div>
     </footer>
+
+    <script>
+        function updatePaymentMethod(method) {
+            const paymentMethodElement = document.getElementById('selected-payment-method');
+            if (paymentMethodElement) {
+                paymentMethodElement.textContent = method;
+            }
+        }
+    </script>
+
 </body>
 
 </html>

@@ -56,46 +56,53 @@ $result = $connection->query($query);
 
 <body>
 
-    <nav class="navbar">
-        <a href="./index.php">
-            <img src="./IMG/ipets-logo.png" class="navbar-logo">
-        </a>
-        <div class="navbar-pesq">
-            <input type="text" placeholder="Loja ou item para seu pet, busque aqui" class="navbar-pesq-input">
-            <img src="./IMG/pesquisa-icon.png" alt="Ícone de pesquisa">
+<nav class="navbar">
+
+<a href="./index.php">
+    <img src="./IMG/ipets-logo.png" class="navbar-logo">
+</a>
+
+<div class="navbar-pesq">
+    <div class="navbar-pesq-input-container">
+        <input type="text" placeholder="Loja ou item para seu pet, busque aqui" class="navbar-pesq-input">
+        <img src="./IMG/pesquisa-icon.png">
+    </div>
+</div>
+<?php if (isset($_SESSION['user_data'])): ?>
+    <a href="./perfilusuario.php" class="navbar-perfil">
+        <div class="navbar-perfil-img">
+            <img src="./IMG/perfil-icon.png">
         </div>
-
-        <?php if (isset($_SESSION['user_data'])): ?>
-            <a href="./perfilusuario.php" class="navbar-perfil">
-                <div class="navbar-perfil-img">
-                    <img src="./IMG/perfil-icon.png" alt="Ícone de perfil">
-                </div>
-                <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
-            </a>
-            <a class="navbar-carrinho" href="./carrinho1.php">
-                <img src="./IMG/carrinho-icon.png" alt="Ícone de carrinho">
-                <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
-            </a>
-        <?php else: ?>
-            <a href="cadselect.php" class="navbar-perfil">
-                <div class="navbar-perfil-img">
-                    <img src="./IMG/perfil-icon.png" alt="Ícone de perfil">
-                </div>
-                <p>Entre ou cadastre-se</p>
-            </a>
-            <a class="navbar-carrinho" href="./carrinho1.php">
-                <img src="./IMG/carrinho-icon.png" alt="Ícone de carrinho">
-                <p>R$ 0,00</p>
-            </a>
-        <?php endif; ?>
-
-        <a class="navbar-veterinario" href="./veterinario.php">
-            <img src="./IMG/vet-icon.png" alt="Ícone de veterinário">
+        <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
         </a>
-        <a class="navbar-localiza" href="#">
-            <img src="./IMG/localizacao-icon.png" alt="Ícone de localização">
-        </a>
-    </nav>
+    <a class="navbar-carrinho" href="./carrinho1.php">
+        <div>
+            <img src="./IMG/carrinho-icon.png">
+        </div>
+        <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
+    </a>
+<?php else: ?>
+    <a href="cadselect.php" class="navbar-perfil">
+        <div class="navbar-perfil-img">
+            <img src="./IMG/perfil-icon.png">
+        </div>
+        <p>Entre ou cadastre-se</p>
+    </a>
+    <a class="navbar-carrinho" href="./carrinho1.php">
+        <div>
+            <img src="./IMG/carrinho-icon.png">
+        </div>
+        <p>R$ 0,00</p>
+    </a>
+<?php endif; ?>
+<a class="navbar-veterinario" href="./veterinario.php">
+    <img src="./IMG/vet-icon.png">
+</a>
+<a class="navbar-localiza">
+    <img src="./IMG/localizacao-icon.png">
+</a>
+
+</nav>
 
     <header class="header-container">
         <a class="selected" href="./categoriaCaes.php">
@@ -153,6 +160,37 @@ $result = $connection->query($query);
                 echo '<p>Não há produtos disponíveis nesta categoria.</p>';
             }
             ?>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <h2>Confira algumas lojas!</h2>
+
+    <div class="lojas-content">
+            <div class="lojas-container">
+
+                <?php
+                $sql = "SELECT * FROM store ORDER BY RAND() LIMIT 3";
+                $result = $connection->query($sql);
+
+                while ($store_data = mysqli_fetch_assoc($result)) {
+                    echo "
+                        <div class='lojas'>
+                            <a style='text-decoration: none; color: #000;' class='lojas-a' href='./paginaLoja.php?store_id=" . $store_data['store_id'] . "'>
+                                <div class='lojas-info-total'>
+                                    <input type='hidden' name='product_id' value='" . $store_data['store_id'] . "'>
+                                    <img src='./IMG/pet-shop-store-icon.png'>
+                                    <div class='lojas-info'>
+                                        <h4>" . $store_data['store_name'] . "</h4>
+                                        <p>Cães e Gatos - 1,2 km</p>
+                                        <p>Aberto até 19:00 - Serviços até 18:00</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>";
+                }
+                ?>
+            </div>
         </div>
     </main>
 

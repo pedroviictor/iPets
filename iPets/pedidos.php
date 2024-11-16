@@ -1,35 +1,25 @@
 <?php
-
 session_start();
 
 include_once('config.php');
-
 
 $grand_total = 0;
 
 if (isset($_SESSION['user_data'])) {
     $user_id = $_SESSION['user_data']['id'];
 
-    $sql = "SELECT total FROM cart WHERE user_id = $user_id LIMIT 1";
-    $result = $connection->query($sql);
+    $sql = "SELECT total FROM cart WHERE user_id = ? LIMIT 1";
+    $stmt = $connection->prepare($sql);
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
         $grand_total = $row['total'];
     }
+    $stmt->close();
 }
-
-if (isset($_SESSION['user_data'])) {
-    $user_id = $_SESSION['user_data']['id'];
-
-    $sql = "SELECT * FROM cart WHERE user_id = $user_id";
-    $result = $connection->query($sql);
-
-    if ($result->num_rows > 0) {
-        $row = $result->fetch_assoc();
-    }
-}
-
 ?>
 
 <!DOCTYPE html>
@@ -41,16 +31,10 @@ if (isset($_SESSION['user_data'])) {
     <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <link rel="stylesheet" href="./CSS/stylesPedidos.css">
     <link rel="stylesheet" href="./CSS/stylesPadrão.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
-        rel="stylesheet">
     <title>Meus pedidos</title>
 </head>
 
 <body>
-
     <nav class="navbar">
 
         <a href="./index.php">
@@ -68,7 +52,7 @@ if (isset($_SESSION['user_data'])) {
                 <div class="navbar-perfil-img">
                     <img src="./IMG/perfil-icon.png">
                 </div>
-                <p>Olá, <?php echo htmlspecialchars($_SESSION['user_data']['nome']); ?>!</p>
+                <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
             </a>
             <a class="navbar-carrinho" href="./carrinho1.php">
                 <div>
@@ -100,72 +84,100 @@ if (isset($_SESSION['user_data'])) {
     </nav>
 
     <main>
-
         <h1>Meus Pedidos</h1>
         <hr>
-
         <div class="emAnd">
-
             <h2>Em aguardo</h2>
-
             <div class="emAnd-prod-group">
+                <?php
+                if (isset($_SESSION['user_data'])) {
+                    $user_id = $_SESSION['user_data']['id'];
 
-                <div class="emAnd-prod">
-                    <div class="prod-loja">
-                        <ul>
-                            <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsSnU96G0Du76updyWR-tJhm_f8B80YsboNw&s"
-                                    alt="logo da loja"></li>
-                            <li>
-                                <p>Petz Produtos e Serviços</p>
-                            </li>
-                            <li class="store-link"><a href="">></a></li>
-                        </ul>
-                    </div>
-                    <hr>
-                    <div class="prod-stts-simple">
-                        <ul>
-                            <li class="status">
-                                <h5>Pedido em andamento</h5>
-                            </li>
-                            <li>
-                                <h5 class="items-number">2</h5>
-                                <h5>Ração Premium cães adultos 1,5kg</h5>
-                            </li>
-                            <li>
-                                <h5 class="items-number">1</h5>
-                                <h5>Bolinha de plástico para cães</h5>
-                            </li>
-                        </ul>
-                    </div>
-                    <hr>
-                    <div class="emAnd-prod-stts-container">
-                        <a class="emAnd-prod-stts" href="">Acompanhar status</a>
-                    </div>
-                </div>
+                    $sql = "SELECT id, DATE(date_time) AS date, TIME(date_time) AS time, services_name 
+                            FROM agendamentos 
+                            WHERE user_id = ? AND a_status = 1";
 
-                
+                    $stmt = $connection->prepare($sql);
 
-                
+                    if ($stmt === false) {
+                        die('Erro na preparação da consulta: ' . $connection->error);
+                    }
+
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    while ($agenda_data = $result->fetch_assoc()) {
+                        $date = htmlspecialchars($agenda_data['date']);
+                        $time = htmlspecialchars($agenda_data['time']);
+                        $services_name = htmlspecialchars($agenda_data['services_name']);
+
+                        echo '
+                        <div class="emAnd-prod">
+                            <div class="prod-loja">
+                                <ul>
+                                    <li><img src="./IMG/pet-shop-store-icon.png" alt="logo da loja"></li>
+                                    <li><p>Petshop</p></li>
+                                    <li class="store-link"><a href=""></a></li>
+                                </ul>
+                            </div>
+                            <hr>
+                            <div class="prod-stts-simple">
+                                <ul>
+                                    <li class="status"><h5>Pedido em andamento</h5></li>
+                                    <li><h5>' . $services_name . '</h5></li>
+                                    <li><h5>Agendado para <span class="date">' . $date . '</span></h5></li>
+                                    <li><h5>às <span class="hour">' . $time . '</span></h5></li>
+                                </ul>
+                            </div>
+                        </div>';
+                    }
+                    $stmt->close();
+                }
+                ?>
             </div>
         </div>
 
         <br>
-        <br>
 
         <div class="hist">
             <h2>Histórico</h2>
-
             <div class="hist-prod-group">
+                <?php
+                if (isset($_SESSION['user_data'])) {
+                    $user_id = $_SESSION['user_data']['id'];
 
+                    $sql = "SELECT id, DATE(date_time) AS date, TIME(date_time) AS time, services_name 
+                    FROM agendamentos 
+                    WHERE user_id = ? AND a_status = 2";
+
+                    $stmt = $connection->prepare($sql);
+
+                    if ($stmt === false) {
+                        die('Erro na preparação da consulta: ' . $connection->error);
+                    }
+
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    while ($agenda_data = $result->fetch_assoc()) {
+                        $date = htmlspecialchars($agenda_data['date']);
+                        $time = htmlspecialchars($agenda_data['time']);
+                        $services_name = htmlspecialchars($agenda_data['services_name']);
+
+                        echo '
                 <div class="hist-prod">
                     <div class="prod-loja">
                         <ul>
-                            <li><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRsSnU96G0Du76updyWR-tJhm_f8B80YsboNw&s"
-                                    alt="logo da loja"></li>
                             <li>
-                                <p>Petz Produtos e Serviços</p>
+                                <img src="./IMG/pet-shop-store-icon.png"
+                                    alt="logo da loja">
                             </li>
-                            <li class="store-link"><a href="">></a></li>
+                            <li>
+                                <p>Petshop</p>
+                            </li>
+                            <li class="store-link"><a href=""></a></li>
                         </ul>
                     </div>
                     <hr>
@@ -175,16 +187,13 @@ if (isset($_SESSION['user_data'])) {
                                 <h5>Pedido concluído</h5>
                             </li>
                             <li>
-                                <h5 class="items-number">2</h5>
-                                <h5>Ração Premium cães adultos 1,5kg</h5>
+                                <h5>Serviço: ' . $services_name . '</h5>
                             </li>
                             <li>
-                                <h5 class="items-number">1</h5>
-                                <h5>Tapete higiênico DogCare 30 unidades</h5>
+                                <h5>Data: ' . $date . '</h5>
                             </li>
                             <li>
-                                <h5 class="items-number">1</h5>
-                                <h5>Bolinha de plástico para cães</h5>
+                                <h5>Hora: ' . $time . '</h5>
                             </li>
                         </ul>
                     </div>
@@ -199,12 +208,90 @@ if (isset($_SESSION['user_data'])) {
                             <h5 class="estr">★</h5>
                         </div>
                     </div>
-                    <hr>
-                    <div class="hist-prod-stts-container">
-                        <a class="hist-prod-stts" href="">Ajuda</a>
-                        <a class="hist-prod-stts" href="">Pedir novamente</a>
+                </div>';
+                    }
+
+                    $stmt->close();
+                }
+                ?>
+
+
+                <?php
+                if (isset($_SESSION['user_data'])) {
+                    $user_id = $_SESSION['user_data']['id'];
+
+                    $sql = "SELECT 
+                cart.id, 
+                cart.store_id,
+                cart.product_id, 
+                cart.quantity, 
+                cart.a_status, 
+                products.product_name
+            FROM cart
+            JOIN products ON cart.product_id = products.product_id
+            WHERE cart.user_id = ? AND cart.a_status = 2";
+
+                    $stmt = $connection->prepare($sql);
+
+                    if ($stmt === false) {
+                        die('Erro na preparação da consulta: ' . $connection->error);
+                    }
+
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    while ($product_data = $result->fetch_assoc()) {
+                        $product_name = htmlspecialchars($product_data['product_name']);
+                        $quantity = (int) $product_data['quantity'];
+
+                        echo '
+            <div class="hist-prod">
+                    <div class="prod-loja">
+                        <ul>
+                            <li>
+                                <img src="./IMG/pet-shop-store-icon.png"
+                                    alt="logo da loja">
+                            </li>
+                            <li>
+                                <p>Petshop</p>
+                            </li>
+                            <li class="store-link"><a href=""></a></li>
+                        </ul>
                     </div>
-                </div>
+                    <hr>
+                    <div class="prod-stts-simple">
+                        <ul>
+                            <li class="status">
+                                <h5>Pedido concluído</h5>
+                            </li>
+                            <li>
+                                <h5>Produto: ' . $product_name . '</h5>
+                            </li>
+                            <li>
+                                <h5>Quantidade: ' . $quantity . '</h5>
+                            </li>
+                            <li>
+                            </li>
+                        </ul>
+                    </div>
+                    <hr>
+                    <div class="aval-container">
+                        <h5 class="aval-label">Avaliação</h5>
+                        <div class="estr-container">
+                            <h5 class="estr">★</h5>
+                            <h5 class="estr">★</h5>
+                            <h5 class="estr">★</h5>
+                            <h5 class="estr">★</h5>
+                            <h5 class="estr">★</h5>
+                        </div>
+                    </div>
+                </div>';
+                    }
+
+                    $stmt->close();
+                }
+                ?>
             </div>
         </div>
     </main>
@@ -233,6 +320,14 @@ if (isset($_SESSION['user_data'])) {
             </div>
         </div>
     </footer>
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    <script>
+        $('.hour').mask("00:00h");
+        $('.date').mask("0000/00/00", { reverse: true });
+    </script>
 </body>
 
 </html>

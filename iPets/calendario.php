@@ -36,7 +36,7 @@ $result = $stmt->get_result();
 
 $booked_dates = [];
 while ($row = $result->fetch_assoc()) {
-    $booked_dates[] = $row['date_time'];
+  $booked_dates[] = $row['date_time'];
 }
 ?>
 
@@ -51,7 +51,8 @@ while ($row = $result->fetch_assoc()) {
   <link rel="icon" href="./IMG/favicon.png" type="image/png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+  <link
+    href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
     rel="stylesheet">
   <script src="./JS/scriptAgendamento.js" defer></script>
   <title>Agendamento</title>
@@ -60,6 +61,7 @@ while ($row = $result->fetch_assoc()) {
 <body>
 
   <nav class="navbar">
+
     <a href="./index.php">
       <img src="./IMG/ipets-logo.png" class="navbar-logo">
     </a>
@@ -76,7 +78,7 @@ while ($row = $result->fetch_assoc()) {
           <img src="./IMG/perfil-icon.png">
         </div>
         <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
-        </a>
+      </a>
       <a class="navbar-carrinho" href="./carrinho1.php">
         <div>
           <img src="./IMG/carrinho-icon.png">
@@ -103,6 +105,7 @@ while ($row = $result->fetch_assoc()) {
     <a class="navbar-localiza">
       <img src="./IMG/localizacao-icon.png">
     </a>
+
   </nav>
 
   <main>
@@ -167,23 +170,23 @@ while ($row = $result->fetch_assoc()) {
   </footer>
 
   <script>
-    
-function continuarAgendamento() {
-    const selectedDate = localStorage.getItem('selectedDate');
-    const services_id = <?php echo $services_id; ?>;
 
-    if (selectedDate && services_id) {
+    function continuarAgendamento() {
+      const selectedDate = localStorage.getItem('selectedDate');
+      const services_id = <?php echo $services_id; ?>;
+
+      if (selectedDate && services_id) {
         const url = `horarios.php?date=${selectedDate}&services_id=${services_id}`;
         window.location.href = url;
-    } else {
+      } else {
         alert('Selecione uma data antes de continuar.');
+      }
     }
-}
 
-createCalendar(currentMonth, currentYear);
+    createCalendar(currentMonth, currentYear);
 
-const continuarButton = document.querySelector('.next-button');
-continuarButton.addEventListener('click', continuarAgendamento);
+    const continuarButton = document.querySelector('.next-button');
+    continuarButton.addEventListener('click', continuarAgendamento);
 
   </script>
 

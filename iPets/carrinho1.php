@@ -43,7 +43,7 @@ if (isset($_POST['product_id']) && isset($_POST['quantity'])) {
         $sql_remove = "DELETE FROM cart WHERE product_id = ? AND user_id = ?";
         $stmt_remove = $connection->prepare($sql_remove);
         $stmt_remove->bind_param('ii', $product_id, $user_id);
-        
+
         if ($stmt_remove->execute()) {
             $stmt_remove->close();
         } else {
@@ -54,7 +54,7 @@ if (isset($_POST['product_id']) && isset($_POST['quantity'])) {
         $sql_update = "UPDATE cart SET quantity = ? WHERE product_id = ? AND user_id = ?";
         $stmt_update = $connection->prepare($sql_update);
         $stmt_update->bind_param('iii', $quantity, $product_id, $user_id);
-        
+
         if (!$stmt_update->execute()) {
             echo json_encode(['error' => 'Erro ao atualizar a quantidade']);
             exit;
@@ -87,7 +87,7 @@ if (isset($_POST['product_id']) && isset($_POST['quantity'])) {
     $stmt->close();
     $update_stmt->close();
 }
-   
+
 
 $sql = "SELECT p.product_name, p.product_price, c.quantity, p.product_id FROM cart c
         JOIN products p ON c.product_id = p.product_id
@@ -128,9 +128,11 @@ if ($result->num_rows > 0) {
 <body>
 
     <nav class="navbar">
+
         <a href="./index.php">
             <img src="./IMG/ipets-logo.png" class="navbar-logo">
         </a>
+
         <div class="navbar-pesq">
             <div class="navbar-pesq-input-container">
                 <input type="text" placeholder="Loja ou item para seu pet, busque aqui" class="navbar-pesq-input">
@@ -143,13 +145,25 @@ if ($result->num_rows > 0) {
                     <img src="./IMG/perfil-icon.png">
                 </div>
                 <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
-                </a>
+            </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
+            </a>
         <?php else: ?>
             <a href="cadselect.php" class="navbar-perfil">
                 <div class="navbar-perfil-img">
                     <img src="./IMG/perfil-icon.png">
                 </div>
                 <p>Entre ou cadastre-se</p>
+            </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ 0,00</p>
             </a>
         <?php endif; ?>
         <a class="navbar-veterinario" href="./veterinario.php">
@@ -158,12 +172,7 @@ if ($result->num_rows > 0) {
         <a class="navbar-localiza">
             <img src="./IMG/localizacao-icon.png">
         </a>
-        <a class="navbar-carrinho" href="./carrinho1.php">
-            <div>
-                <img src="./IMG/carrinho-icon.png">
-            </div>
-            <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
-        </a>
+
     </nav>
 
     <main>
