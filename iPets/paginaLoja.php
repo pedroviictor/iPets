@@ -130,7 +130,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_cart'])) {
         </a>
 
     </nav>
-
     <button onclick="window.history.back();" class="button-back">&#60;</button>
 
     <main>

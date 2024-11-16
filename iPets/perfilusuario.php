@@ -67,12 +67,24 @@ $user_data = $_SESSION['user_data'];
                 </div>
                 <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
             </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
+            </a>
         <?php else: ?>
             <a href="cadselect.php" class="navbar-perfil">
                 <div class="navbar-perfil-img">
                     <img src="./IMG/perfil-icon.png">
                 </div>
                 <p>Entre ou cadastre-se</p>
+            </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ 0,00</p>
             </a>
         <?php endif; ?>
         <a class="navbar-veterinario" href="./veterinario.php">
@@ -81,14 +93,8 @@ $user_data = $_SESSION['user_data'];
         <a class="navbar-localiza">
             <img src="./IMG/localizacao-icon.png">
         </a>
-        <a class="navbar-carrinho" href="./carrinho1.php">
-            <div>
-                <img src="./IMG/carrinho-icon.png">
-            </div>
-            <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
-        </a>
-    </nav>
 
+    </nav>
     <main>
 
 
