@@ -86,6 +86,7 @@ if (isset($_SESSION['user_data'])) {
                 <img src="./IMG/vet-icon.png">
             </a>
             <a class="navbar-localiza" onclick="checkLocalizationNear()">
+            <a class="navbar-localiza" onclick="checkLocalizationNear()">
                 <img src="./IMG/localizacao-icon.png">
             </a>
 
@@ -230,6 +231,10 @@ if (isset($_SESSION['user_data'])) {
             </div>
         </div>
     </footer>
+
+<script src="./JS/localization.js" defer></script>
+
+
 
 <script src="./JS/localization.js" defer></script>
 
