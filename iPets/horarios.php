@@ -6,6 +6,7 @@ $services_id = isset($_GET['services_id']) ? $_GET['services_id'] : null;
 $selected_date = isset($_GET['date']) ? $_GET['date'] : null;
 
 $grand_total = 0;
+$store_id = isset($_SESSION['store_data']['id']) ? $_SESSION['store_data']['id'] : null;
 
 if (isset($_SESSION['user_data'])) {
     $user_id = $_SESSION['user_data']['id'];
@@ -21,9 +22,9 @@ if (isset($_SESSION['user_data'])) {
 
 $occupied_times = [];
 if ($selected_date) {
-    $sql = "SELECT date_time FROM agendamentos WHERE DATE(date_time) = ?";
+    $sql = "SELECT date_time, store_id FROM agendamentos WHERE DATE(date_time) = ? AND store_id = ?";
     $stmt = $connection->prepare($sql);
-    $stmt->bind_param("s", $selected_date);
+    $stmt->bind_param("ss", $selected_date, $store_id);
     $stmt->execute();
     $stmt->store_result();
 
@@ -46,59 +47,61 @@ if ($selected_date) {
     <link rel="icon" href="./IMG/favicon.png" type="image/png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        rel="stylesheet">
     <title>Agendamento</title>
 </head>
 
 <body>
 
-<nav class="navbar">
+    <nav class="navbar">
 
-<a href="./index.php">
-    <img src="./IMG/ipets-logo.png" class="navbar-logo">
-</a>
-
-<div class="navbar-pesq">
-    <div class="navbar-pesq-input-container">
-        <input type="text" placeholder="Loja ou item para seu pet, busque aqui" class="navbar-pesq-input">
-        <img src="./IMG/pesquisa-icon.png">
-    </div>
-</div>
-<?php if (isset($_SESSION['user_data'])): ?>
-    <a href="./perfilusuario.php" class="navbar-perfil">
-        <div class="navbar-perfil-img">
-            <img src="./IMG/perfil-icon.png">
-        </div>
-        <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
+        <a href="./index.php">
+            <img src="./IMG/ipets-logo.png" class="navbar-logo">
         </a>
-    <a class="navbar-carrinho" href="./carrinho1.php">
-        <div>
-            <img src="./IMG/carrinho-icon.png">
-        </div>
-        <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
-    </a>
-<?php else: ?>
-    <a href="cadselect.php" class="navbar-perfil">
-        <div class="navbar-perfil-img">
-            <img src="./IMG/perfil-icon.png">
-        </div>
-        <p>Entre ou cadastre-se</p>
-    </a>
-    <a class="navbar-carrinho" href="./carrinho1.php">
-        <div>
-            <img src="./IMG/carrinho-icon.png">
-        </div>
-        <p>R$ 0,00</p>
-    </a>
-<?php endif; ?>
-<a class="navbar-veterinario" href="./veterinario.php">
-    <img src="./IMG/vet-icon.png">
-</a>
-<a class="navbar-localiza">
-    <img src="./IMG/localizacao-icon.png">
-</a>
 
-</nav>
+        <div class="navbar-pesq">
+            <div class="navbar-pesq-input-container">
+                <input type="text" placeholder="Loja ou item para seu pet, busque aqui" class="navbar-pesq-input">
+                <img src="./IMG/pesquisa-icon.png">
+            </div>
+        </div>
+        <?php if (isset($_SESSION['user_data'])): ?>
+            <a href="./perfilusuario.php" class="navbar-perfil">
+                <div class="navbar-perfil-img">
+                    <img src="./IMG/perfil-icon.png">
+                </div>
+                <p>Olá, <?php echo htmlspecialchars(explode(' ', $_SESSION['user_data']['nome'])[0]); ?>!</p>
+            </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ <?php echo number_format($grand_total, 2, ',', '.'); ?></p>
+            </a>
+        <?php else: ?>
+            <a href="cadselect.php" class="navbar-perfil">
+                <div class="navbar-perfil-img">
+                    <img src="./IMG/perfil-icon.png">
+                </div>
+                <p>Entre ou cadastre-se</p>
+            </a>
+            <a class="navbar-carrinho" href="./carrinho1.php">
+                <div>
+                    <img src="./IMG/carrinho-icon.png">
+                </div>
+                <p>R$ 0,00</p>
+            </a>
+        <?php endif; ?>
+        <a class="navbar-veterinario" href="./veterinario.php">
+            <img src="./IMG/vet-icon.png">
+        </a>
+        <a class="navbar-localiza">
+            <img src="./IMG/localizacao-icon.png">
+        </a>
+
+    </nav>
 
     <main>
         <h2>Horários</h2>
@@ -120,7 +123,7 @@ if ($selected_date) {
             <hr noshade="noshade" size="1">
             <div class="horarios">
                 <ul>
-                    <?php 
+                    <?php
                     $available_times = ['10:00', '14:00', '18:00'];
                     foreach ($available_times as $time) {
                         if (in_array($time, $occupied_times)) {
@@ -190,7 +193,6 @@ if ($selected_date) {
                 });
             });
         });
-
     </script>
 
 </body>

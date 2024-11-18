@@ -93,9 +93,153 @@ if (isset($_SESSION['user_data'])) {
                 if (isset($_SESSION['user_data'])) {
                     $user_id = $_SESSION['user_data']['id'];
 
+                    $sql = "SELECT 
+                cart.id, 
+                cart.store_id,
+                cart.product_id, 
+                cart.quantity, 
+                cart.a_status, 
+                products.product_name
+            FROM cart
+            JOIN products ON cart.product_id = products.product_id
+            WHERE cart.user_id = ? AND cart.a_status = 1";
+
+                    $stmt = $connection->prepare($sql);
+
+                    if ($stmt === false) {
+                        die('Erro na preparação da consulta: ' . $connection->error);
+                    }
+
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    while ($product_data = $result->fetch_assoc()) {
+                        $product_name = htmlspecialchars($product_data['product_name']);
+                        $quantity = (int) $product_data['quantity'];
+
+                        echo '
+            <div class="emAnd-prod">
+                    <div class="prod-loja">
+                        <ul>
+                            <li>
+                                <img src="./IMG/pet-shop-store-icon.png"
+                                    alt="logo da loja">
+                            </li>
+                            <li>
+                                <p>Petshop</p>
+                            </li>
+                            <li class="store-link"><a href=""></a></li>
+                        </ul>
+                    </div>
+                    <hr>
+                    <div class="prod-stts-simple">
+                        <ul>
+                            <li class="status">
+                                <h5>Pedido concluído</h5>
+                            </li>
+                            <li>
+                                <h5>Produto: ' . $product_name . '</h5>
+                            </li>
+                            <li>
+                                <h5>Quantidade: ' . $quantity . '</h5>
+                            </li>
+                            <li>
+                            </li>
+                        </ul>
+                    </div>
+                </div>';
+                    }
+
+                    $stmt->close();
+                }
+                ?>
+            </div>
+        </div>
+
+        <br>
+
+        <div class="hist">
+            <h2>Pedidos em andamento</h2>
+            <div class="emAnd-prod-group">
+                <?php
+                if (isset($_SESSION['user_data'])) {
+                    $user_id = $_SESSION['user_data']['id'];
+
+                    $sql = "SELECT 
+                cart.id, 
+                cart.store_id,
+                cart.product_id, 
+                cart.quantity, 
+                cart.a_status, 
+                products.product_name
+            FROM cart
+            JOIN products ON cart.product_id = products.product_id
+            WHERE cart.user_id = ? AND cart.a_status = 2";
+
+                    $stmt = $connection->prepare($sql);
+
+                    if ($stmt === false) {
+                        die('Erro na preparação da consulta: ' . $connection->error);
+                    }
+
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
+
+                    while ($product_data = $result->fetch_assoc()) {
+                        $product_name = htmlspecialchars($product_data['product_name']);
+                        $quantity = (int) $product_data['quantity'];
+                        $cart_id = (int) $product_data['id']; // Inicializa corretamente o $cart_id
+                
+                        echo '
+                <div class="emAnd-prod">
+                    <div class="prod-loja">
+                        <ul>
+                            <li>
+                                <img src="./IMG/pet-shop-store-icon.png"
+                                    alt="logo da loja">
+                            </li>
+                            <li>
+                                <p>Petshop</p>
+                            </li>
+                            <li class="store-link"><a href=""></a></li>
+                        </ul>
+                    </div>
+                    <hr>
+                    <div class="prod-stts-simple">
+                        <ul>
+                            <li class="status">
+                                <h5>Pedido em andamento</h5>
+                            </li>
+                            <li>
+                                <h5>Produto: ' . $product_name . '</h5>
+                            </li>
+                            <li>
+                                <h5>Quantidade: ' . $quantity . '</h5>
+                            </li>
+                            <li>
+                                <form action="atualizar_status.php" method="POST">
+                                    <input type="hidden" name="cart_id" value="' . $cart_id . '">
+                                    <button type="submit" class="btn-recebi">Recebi meu pedido</button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                </div>';
+                    }
+
+                    $stmt->close();
+                }
+                ?>
+
+<?php
+                if (isset($_SESSION['user_data'])) {
+                    $user_id = $_SESSION['user_data']['id'];
+
                     $sql = "SELECT id, DATE(date_time) AS date, TIME(date_time) AS time, services_name 
                             FROM agendamentos 
-                            WHERE user_id = ? AND a_status = 1";
+                            WHERE user_id = ? AND a_status = 2";
 
                     $stmt = $connection->prepare($sql);
 
@@ -140,7 +284,7 @@ if (isset($_SESSION['user_data'])) {
 
         <br>
 
-        <div class="hist">
+        <div class="emAnd">
             <h2>Histórico</h2>
             <div class="hist-prod-group">
                 <?php
@@ -149,7 +293,7 @@ if (isset($_SESSION['user_data'])) {
 
                     $sql = "SELECT id, DATE(date_time) AS date, TIME(date_time) AS time, services_name 
                     FROM agendamentos 
-                    WHERE user_id = ? AND a_status = 2";
+                    WHERE user_id = ? AND a_status = 3";
 
                     $stmt = $connection->prepare($sql);
 
@@ -216,6 +360,7 @@ if (isset($_SESSION['user_data'])) {
                 ?>
 
 
+
                 <?php
                 if (isset($_SESSION['user_data'])) {
                     $user_id = $_SESSION['user_data']['id'];
@@ -229,7 +374,7 @@ if (isset($_SESSION['user_data'])) {
                 products.product_name
             FROM cart
             JOIN products ON cart.product_id = products.product_id
-            WHERE cart.user_id = ? AND cart.a_status = 2";
+            WHERE cart.user_id = ? AND cart.a_status = 3";
 
                     $stmt = $connection->prepare($sql);
 

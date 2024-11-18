@@ -149,7 +149,7 @@ if (isset($_GET['success'])) {
     <link
         href="https://fonts.googleapis.com/css2?family=Kanit:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
         rel="stylesheet">
-    <title>Perfil</title>
+    <title>Seu perfil</title>
 </head>
 
 <body>
@@ -165,19 +165,14 @@ if (isset($_GET['success'])) {
             <p class="nav-item-tit">Histórico</p>
         </a>
 
-        <a class="nav-item" href="#">
+        <a class="nav-item" href="pedidosvendedor.php">
             <img src="./IMG/icon-vendedor-pedidos.png" class="nav-item-img">
             <p class="nav-item-tit">Pedidos</p>
         </a>
 
-        <a class="nav-item" href="#">
+        <a class="nav-item" href="calendarioVendedor.php">
             <img src="./IMG/icon-vendedor-agenda.png" class="nav-item-img">
             <p class="nav-item-tit">Agenda</p>
-        </a>
-
-        <a class="nav-item" href="#">
-            <img src="./IMG/icon-vendedor-config.png" class="nav-item-img">
-            <p class="nav-item-tit">Configurações</p>
         </a>
 
         <br><br>

@@ -17,7 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         exit;
     }
 
-    // Consulta para pegar as informações do serviço
     $sql = "SELECT store_id, services_price, services_name FROM services WHERE services_id = ?";
     $stmt = $connection->prepare($sql);
 
@@ -31,15 +30,14 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $stmt->store_result();
 
     if ($stmt->num_rows > 0) {
-        // Agora incluímos o `services_name` no `bind_result`
-        $stmt->bind_result($store_id, $service_price, $services_name); // Corrigido aqui
+        $stmt->bind_result($store_id, $service_price, $services_name);
         $stmt->fetch();
     } else {
         echo "Serviço não encontrado.";
         exit;
     }
 
-    $a_status = 1;
+    $a_status = 2;
 
     $selected_date = isset($_POST['selected_date']) ? $_POST['selected_date'] : null;
     $selected_time = isset($_POST['selected_time']) ? $_POST['selected_time'] : null;
@@ -69,8 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $formatted_date_time = $date_time->format('Y-m-d H:i:s');
 
-        // Verificar se o horário já está ocupado
-        $sql_check = "SELECT id FROM agendamentos WHERE date_time = ?";
+        $sql_check = "SELECT id FROM agendamentos WHERE date_time = ? AND store_id = ?";
         $stmt_check = $connection->prepare($sql_check);
         $stmt_check->bind_param("s", $formatted_date_time);
         $stmt_check->execute();
@@ -86,7 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         $total = $service_price;
 
-        // Inserir o agendamento
         $sql_insert = "INSERT INTO agendamentos (user_id, services_id, services_name, store_id, date_time, total, a_status) VALUES (?, ?, ?, ?, ?, ?, ?)";
         $stmt_insert = $connection->prepare($sql_insert);
 
